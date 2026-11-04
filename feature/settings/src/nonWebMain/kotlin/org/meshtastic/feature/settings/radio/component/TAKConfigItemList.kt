@@ -79,6 +79,8 @@ import org.meshtastic.core.resources.tak_server_enabled_desc
 import org.meshtastic.core.resources.tak_server_export_data_package_desc
 import org.meshtastic.core.resources.tak_server_export_failed
 import org.meshtastic.core.resources.tak_server_loading
+import org.meshtastic.core.resources.tak_node_gps_nmea
+import org.meshtastic.core.resources.tak_node_gps_nmea_desc
 import org.meshtastic.core.resources.tak_server_mesh_to_cot
 import org.meshtastic.core.resources.tak_server_mesh_to_cot_desc
 import org.meshtastic.core.resources.tak_server_regenerate_certs
@@ -230,6 +232,7 @@ fun TakServerScreen(onBack: () -> Unit) {
     val nodeRepository: NodeRepository = koinInject()
     val radioConfigRepository: RadioConfigRepository = koinInject()
     val isTakServerEnabled by takPrefs.isTakServerEnabled.collectAsStateWithLifecycle()
+    val isNodeGpsNmeaEnabled by takPrefs.isNodeGpsNmeaEnabled.collectAsStateWithLifecycle()
     val isMeshToCotEnabled by takPrefs.isMeshToCotEnabled.collectAsStateWithLifecycle()
     val takServerChannel by takPrefs.takServerChannel.collectAsStateWithLifecycle()
     val channelSet by
@@ -338,6 +341,8 @@ fun TakServerScreen(onBack: () -> Unit) {
             TakServerSection(
                 isTakServerEnabled = isTakServerEnabled,
                 onEnabledChange = { takPrefs.setTakServerEnabled(it) },
+                isNodeGpsNmeaEnabled = isNodeGpsNmeaEnabled,
+                onNodeGpsNmeaChange = { takPrefs.setNodeGpsNmeaEnabled(it) },
                 isMeshToCotEnabled = isMeshToCotEnabled,
                 onMeshToCotChange = { takPrefs.setMeshToCotEnabled(it) },
                 takServerChannel = takServerChannel,
@@ -361,6 +366,8 @@ fun TakServerScreen(onBack: () -> Unit) {
 internal fun TakServerSection(
     isTakServerEnabled: Boolean,
     onEnabledChange: (Boolean) -> Unit,
+    isNodeGpsNmeaEnabled: Boolean,
+    onNodeGpsNmeaChange: (Boolean) -> Unit,
     isMeshToCotEnabled: Boolean,
     onMeshToCotChange: (Boolean) -> Unit,
     takServerChannel: Int,
@@ -380,6 +387,14 @@ internal fun TakServerSection(
             checked = isTakServerEnabled,
             enabled = true,
             onCheckedChange = onEnabledChange,
+        )
+        HorizontalDivider()
+        SwitchPreference(
+            title = stringResource(Res.string.tak_node_gps_nmea),
+            summary = stringResource(Res.string.tak_node_gps_nmea_desc),
+            checked = isNodeGpsNmeaEnabled,
+            enabled = true,
+            onCheckedChange = onNodeGpsNmeaChange,
         )
         HorizontalDivider()
         TakServerStatusRow(status = status, clientCount = clientCount)

@@ -38,6 +38,7 @@ import org.meshtastic.core.model.DeviceAddress
 import org.meshtastic.core.repository.MeshConnectionManager
 import org.meshtastic.core.repository.MeshMessageProcessor
 import org.meshtastic.core.repository.MeshNotificationManager
+import org.meshtastic.core.repository.NodeGpsNmeaController
 import org.meshtastic.core.repository.NodeManager
 import org.meshtastic.core.repository.RadioInterfaceService
 import org.meshtastic.core.repository.ServiceStateWriter
@@ -71,6 +72,7 @@ class MeshServiceOrchestrator(
     private val serviceNotifications: MeshNotificationManager,
     private val takServerIntegration: TakServerIntegration,
     private val takPrefs: TakPrefs,
+    private val nodeGpsNmeaController: NodeGpsNmeaController,
     private val databaseManager: DatabaseManager,
     private val connectionManager: MeshConnectionManager,
     private val dispatchers: CoroutineDispatchers,
@@ -175,6 +177,8 @@ class MeshServiceOrchestrator(
                 }
             }
             .launchIn(newScope)
+
+        nodeGpsNmeaController.start(newScope)
 
         newScope.handledLaunch { coldStartConnect() }
 

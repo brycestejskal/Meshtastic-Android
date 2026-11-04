@@ -41,6 +41,7 @@ import org.meshtastic.core.model.ConnectionState
 import org.meshtastic.core.repository.MeshConnectionManager
 import org.meshtastic.core.repository.MeshMessageProcessor
 import org.meshtastic.core.repository.MeshNotificationManager
+import org.meshtastic.core.repository.NodeGpsNmeaController
 import org.meshtastic.core.repository.NodeManager
 import org.meshtastic.core.repository.RadioInterfaceService
 import org.meshtastic.core.repository.RadioSessionContext
@@ -122,6 +123,7 @@ class MeshServiceOrchestratorTest {
             serviceNotifications = serviceNotifications,
             takServerIntegration = takServerIntegration,
             takPrefs = takPrefs,
+            nodeGpsNmeaController = NodeGpsNmeaController {},
             databaseManager = databaseManager,
             connectionManager = connectionManager,
             dispatchers = dispatchers,

@@ -2219,6 +2219,8 @@
     <string name="tak_server_loading">…</string>
     <string name="tak_server_mesh_to_cot">Mesh to CoT Converter</string>
     <string name="tak_server_mesh_to_cot_desc">Show Meshtastic nodes on the ATAK map as contacts</string>
+    <string name="tak_node_gps_nmea">Use node GPS as ATAK location</string>
+    <string name="tak_node_gps_nmea_desc">Sends this node's GPS to ATAK as NMEA on UDP port 4349. In ATAK, turn internal GNSS off and leave Streaming NMEA on.</string>
     <string name="tak_server_permission_blocked">The TAK server needs local network access to accept connections, and Android will not ask again. It has been turned off for now — turn the permission on in app settings and switch it back on.</string>
     <string name="tak_server_regenerate_certs">Regenerate Certificates</string>
     <string name="tak_server_regenerate_certs_confirm">Regenerate</string>

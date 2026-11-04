@@ -21,12 +21,14 @@ import org.koin.core.annotation.Single
 import org.meshtastic.core.di.CoroutineDispatchers
 import org.meshtastic.core.repository.CommandSender
 import org.meshtastic.core.repository.MeshConfigHandler
+import org.meshtastic.core.repository.NodeGpsNmeaController
 import org.meshtastic.core.repository.NodeRepository
 import org.meshtastic.core.repository.ServiceRepository
 import org.meshtastic.core.repository.TakCertificateStore
 import org.meshtastic.core.repository.TakPrefs
 import org.meshtastic.core.repository.TakServerIntegration
 import org.meshtastic.core.takserver.MeshToCotBroadcaster
+import org.meshtastic.core.takserver.NodeGpsNmeaForwarder
 import org.meshtastic.core.takserver.TAKMeshIntegration
 import org.meshtastic.core.takserver.TAKServer
 import org.meshtastic.core.takserver.TAKServerManager
@@ -51,6 +53,19 @@ class CoreTakServerModule {
         takPrefs: TakPrefs,
         dispatchers: CoroutineDispatchers,
     ): MeshToCotBroadcaster = MeshToCotBroadcaster(takServerManager, nodeRepository, takPrefs, dispatchers)
+
+    @Single
+    fun provideNodeGpsNmeaController(
+        takPrefs: TakPrefs,
+        nodeRepository: NodeRepository,
+        serviceRepository: ServiceRepository,
+        dispatchers: CoroutineDispatchers,
+    ): NodeGpsNmeaController = NodeGpsNmeaForwarder(
+        enabled = takPrefs.isNodeGpsNmeaEnabled,
+        connectionState = serviceRepository.connectionState,
+        ourNodeInfo = nodeRepository.ourNodeInfo,
+        dispatchers = dispatchers,
+    )
 
     // Bound under both types: feature/settings' debug TakMeshTestCard resolves the concrete TAKMeshIntegration
     // (it needs members beyond TakServerIntegration's minimal seam), MeshServiceOrchestrator resolves

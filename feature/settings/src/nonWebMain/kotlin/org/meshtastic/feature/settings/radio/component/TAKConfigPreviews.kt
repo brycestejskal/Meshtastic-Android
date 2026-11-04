@@ -49,6 +49,8 @@ fun TakServerSectionDisabledPreview() {
         TakServerSection(
             isTakServerEnabled = false,
             onEnabledChange = {},
+            isNodeGpsNmeaEnabled = false,
+            onNodeGpsNmeaChange = {},
             isMeshToCotEnabled = false,
             onMeshToCotChange = {},
             takServerChannel = 0,
@@ -75,6 +77,8 @@ fun TakServerSectionEnabledPreview() {
         TakServerSection(
             isTakServerEnabled = true,
             onEnabledChange = {},
+            isNodeGpsNmeaEnabled = false,
+            onNodeGpsNmeaChange = {},
             isMeshToCotEnabled = true,
             onMeshToCotChange = {},
             takServerChannel = 0,
@@ -101,6 +105,8 @@ fun TakServerSectionConnectedPreview() {
         TakServerSection(
             isTakServerEnabled = true,
             onEnabledChange = {},
+            isNodeGpsNmeaEnabled = false,
+            onNodeGpsNmeaChange = {},
             isMeshToCotEnabled = true,
             onMeshToCotChange = {},
             takServerChannel = 0,
@@ -127,6 +133,8 @@ fun TakServerSectionFailedPreview() {
         TakServerSection(
             isTakServerEnabled = true,
             onEnabledChange = {},
+            isNodeGpsNmeaEnabled = false,
+            onNodeGpsNmeaChange = {},
             isMeshToCotEnabled = true,
             onMeshToCotChange = {},
             takServerChannel = 0,
@@ -153,6 +161,8 @@ fun TakServerSectionV1FallbackPreview() {
         TakServerSection(
             isTakServerEnabled = true,
             onEnabledChange = {},
+            isNodeGpsNmeaEnabled = false,
+            onNodeGpsNmeaChange = {},
             isMeshToCotEnabled = true,
             onMeshToCotChange = {},
             takServerChannel = 0,
