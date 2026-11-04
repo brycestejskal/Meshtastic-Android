@@ -426,6 +426,15 @@ interface TakPrefs {
     fun setMeshToCotEnabled(enabled: Boolean)
 
     /**
+     * Whether the connected node's GPS is repeated as NMEA to ATAK's Network GNSS port (`127.0.0.1:4349`). Opt-in and
+     * default off. Independent of [isTakServerEnabled]: the TAK server publishes map contacts, and this feed is ATAK's
+     * own location.
+     */
+    val isNodeGpsNmeaEnabled: StateFlow<Boolean>
+
+    fun setNodeGpsNmeaEnabled(enabled: Boolean)
+
+    /**
      * Meshtastic channel index used for outbound TAK traffic (TAK client -> mesh). Parity with iOS's `takServerChannel`
      * setting and the legacy ATAK plugin's channel option. Defaults to 0 (the primary channel).
      */

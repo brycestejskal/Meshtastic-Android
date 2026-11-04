@@ -34,6 +34,7 @@ import org.meshtastic.core.di.CoroutineDispatchers
 import org.meshtastic.core.repository.RadioInterfaceService
 import org.meshtastic.core.repository.RadioPrefs
 import org.meshtastic.core.takserver.MeshToCotBroadcaster
+import org.meshtastic.core.takserver.NodeGpsNmeaController
 import org.meshtastic.core.takserver.TAKMeshIntegration
 import org.meshtastic.core.testing.FakeNodeRepository
 import org.meshtastic.core.testing.FakeRadioController
@@ -95,6 +96,7 @@ class QuickSettingsTileControllerTest {
                 takPrefs = mock(MockMode.autofill),
             ),
             takPrefs = mock(MockMode.autofill),
+            nodeGpsNmeaController = NodeGpsNmeaController {},
             databaseManager = mock(MockMode.autofill),
             connectionManager = mock(MockMode.autofill),
             dispatchers = dispatchers,

@@ -26,6 +26,8 @@ import org.meshtastic.core.repository.ServiceRepository
 import org.meshtastic.core.repository.TakCertificateStore
 import org.meshtastic.core.repository.TakPrefs
 import org.meshtastic.core.takserver.MeshToCotBroadcaster
+import org.meshtastic.core.takserver.NodeGpsNmeaController
+import org.meshtastic.core.takserver.NodeGpsNmeaForwarder
 import org.meshtastic.core.takserver.TAKMeshIntegration
 import org.meshtastic.core.takserver.TAKServer
 import org.meshtastic.core.takserver.TAKServerManager
@@ -50,6 +52,19 @@ class CoreTakServerModule {
         takPrefs: TakPrefs,
         dispatchers: CoroutineDispatchers,
     ): MeshToCotBroadcaster = MeshToCotBroadcaster(takServerManager, nodeRepository, takPrefs, dispatchers)
+
+    @Single
+    fun provideNodeGpsNmeaController(
+        takPrefs: TakPrefs,
+        nodeRepository: NodeRepository,
+        serviceRepository: ServiceRepository,
+        dispatchers: CoroutineDispatchers,
+    ): NodeGpsNmeaController = NodeGpsNmeaForwarder(
+        enabled = takPrefs.isNodeGpsNmeaEnabled,
+        connectionState = serviceRepository.connectionState,
+        ourNodeInfo = nodeRepository.ourNodeInfo,
+        dispatchers = dispatchers,
+    )
 
     @Single
     fun provideTAKMeshIntegration(

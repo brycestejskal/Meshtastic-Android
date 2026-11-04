@@ -458,6 +458,12 @@ class FakeTakPrefs : org.meshtastic.core.repository.TakPrefs {
         isMeshToCotEnabled.value = enabled
     }
 
+    override val isNodeGpsNmeaEnabled = MutableStateFlow(false)
+
+    override fun setNodeGpsNmeaEnabled(enabled: Boolean) {
+        isNodeGpsNmeaEnabled.value = enabled
+    }
+
     override val takServerChannel = MutableStateFlow(0)
 
     override fun setTakServerChannel(index: Int) {

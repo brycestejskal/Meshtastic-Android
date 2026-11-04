@@ -54,6 +54,7 @@ import org.meshtastic.core.resources.Res
 import org.meshtastic.core.resources.getStringSuspend
 import org.meshtastic.core.resources.local_network_permission_denied_hint
 import org.meshtastic.core.takserver.MeshToCotBroadcaster
+import org.meshtastic.core.takserver.NodeGpsNmeaController
 import org.meshtastic.core.takserver.TAKMeshIntegration
 import org.meshtastic.core.takserver.TAKServerManager
 import org.meshtastic.proto.FromRadio
@@ -164,6 +165,7 @@ class MeshServiceOrchestratorTest {
             takServerManager = takServerManager,
             takMeshIntegration = takMeshIntegration,
             takPrefs = takPrefs,
+            nodeGpsNmeaController = NodeGpsNmeaController {},
             databaseManager = databaseManager,
             connectionManager = connectionManager,
             dispatchers = dispatchers,

@@ -46,6 +46,7 @@ import org.meshtastic.core.repository.TakPrefs
 import org.meshtastic.core.resources.Res
 import org.meshtastic.core.resources.getStringSuspend
 import org.meshtastic.core.resources.local_network_permission_denied_hint
+import org.meshtastic.core.takserver.NodeGpsNmeaController
 import org.meshtastic.core.takserver.TAKMeshIntegration
 import org.meshtastic.core.takserver.TAKServerManager
 
@@ -74,6 +75,7 @@ class MeshServiceOrchestrator(
     private val takServerManager: TAKServerManager,
     private val takMeshIntegration: TAKMeshIntegration,
     private val takPrefs: TakPrefs,
+    private val nodeGpsNmeaController: NodeGpsNmeaController,
     private val databaseManager: DatabaseManager,
     private val connectionManager: MeshConnectionManager,
     private val dispatchers: CoroutineDispatchers,
@@ -178,6 +180,8 @@ class MeshServiceOrchestrator(
                 }
             }
             .launchIn(newScope)
+
+        nodeGpsNmeaController.start(newScope)
 
         newScope.handledLaunch { coldStartConnect() }
 

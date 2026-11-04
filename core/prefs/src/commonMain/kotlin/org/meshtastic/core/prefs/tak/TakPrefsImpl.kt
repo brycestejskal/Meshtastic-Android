@@ -49,6 +49,13 @@ class TakPrefsImpl(private val dataStore: UiDataStore, dispatchers: CoroutineDis
         scope.launch { dataStore.edit { prefs -> prefs[KEY_TAK_MESH_TO_COT] = enabled } }
     }
 
+    override val isNodeGpsNmeaEnabled: StateFlow<Boolean> =
+        dataStore.data.map { it[KEY_TAK_NODE_GPS_NMEA] ?: false }.stateIn(scope, SharingStarted.Eagerly, false)
+
+    override fun setNodeGpsNmeaEnabled(enabled: Boolean) {
+        scope.launch { dataStore.edit { prefs -> prefs[KEY_TAK_NODE_GPS_NMEA] = enabled } }
+    }
+
     override val takServerChannel: StateFlow<Int> =
         dataStore.data.map { it[KEY_TAK_SERVER_CHANNEL] ?: 0 }.stateIn(scope, SharingStarted.Eagerly, 0)
 
@@ -59,6 +66,7 @@ class TakPrefsImpl(private val dataStore: UiDataStore, dispatchers: CoroutineDis
     companion object {
         val KEY_TAK_SERVER_ENABLED = booleanPreferencesKey("tak_server_enabled")
         val KEY_TAK_MESH_TO_COT = booleanPreferencesKey("tak_mesh_to_cot")
+        val KEY_TAK_NODE_GPS_NMEA = booleanPreferencesKey("tak_node_gps_nmea")
         val KEY_TAK_SERVER_CHANNEL = intPreferencesKey("tak_server_channel")
     }
 }
