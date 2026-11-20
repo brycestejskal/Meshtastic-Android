@@ -27,6 +27,7 @@ import org.meshtastic.core.resources.bluetooth_feature_discovery_description
 import org.meshtastic.core.resources.bluetooth_permission
 import org.meshtastic.core.resources.bluetooth_permission_blocked_notice
 import org.meshtastic.core.resources.bluetooth_permission_blocked_notice_pre31
+import org.meshtastic.core.resources.bluetooth_permission_browser
 import org.meshtastic.core.resources.bluetooth_permission_denied_notice
 import org.meshtastic.core.resources.bluetooth_permission_denied_notice_pre31
 import org.meshtastic.core.resources.configure_bluetooth_permissions
@@ -37,6 +38,7 @@ import org.meshtastic.core.resources.permission_missing_31
 import org.meshtastic.core.resources.permission_missing_pre31
 import org.meshtastic.core.resources.share_location
 import org.meshtastic.core.resources.share_location_description
+import org.meshtastic.core.ui.component.OnboardingFeature
 import org.meshtastic.core.ui.icon.Antenna
 import org.meshtastic.core.ui.icon.Bluetooth
 import org.meshtastic.core.ui.icon.LocationOn
@@ -53,6 +55,8 @@ import org.meshtastic.core.ui.util.PermissionStatus
  *   devices". The copy follows, because naming a permission the user will never be shown is worse than saying nothing.
  * @param onSkip Callback invoked if the user chooses to skip Bluetooth permission setup.
  * @param onPrimaryAction Callback for the status-driven primary action (request, open settings, or advance).
+ * @param inBrowser there is no up-front grant: the browser's chooser picks a radio at each connection, so the copy says
+ *   so.
  */
 @Composable
 internal fun BluetoothScreen(
@@ -60,13 +64,18 @@ internal fun BluetoothScreen(
     requiresLocation: Boolean,
     onSkip: () -> Unit,
     onPrimaryAction: () -> Unit,
+    inBrowser: Boolean = false,
 ) {
     val features = bluetoothScreenFeatures(requiresLocation)
 
     PermissionScreenLayout(
         headlineRes = Res.string.bluetooth_permission,
         descriptionRes =
-        if (requiresLocation) Res.string.permission_missing_pre31 else Res.string.permission_missing_31,
+        when {
+            inBrowser -> Res.string.bluetooth_permission_browser
+            requiresLocation -> Res.string.permission_missing_pre31
+            else -> Res.string.permission_missing_31
+        },
         features = features,
         status = status,
         deniedNoticeRes =
@@ -89,6 +98,7 @@ internal fun BluetoothScreen(
         },
         onSkip = onSkip,
         onPrimaryAction = onPrimaryAction,
+        inBrowser = inBrowser,
     )
 }
 
@@ -98,16 +108,16 @@ internal fun BluetoothScreen(
  * Split out so [BluetoothScreen] stays within the complexity budget and this stays about the platform difference.
  */
 @Composable
-private fun bluetoothScreenFeatures(requiresLocation: Boolean): List<FeatureUIData> = buildList {
+private fun bluetoothScreenFeatures(requiresLocation: Boolean): List<OnboardingFeature> = buildList {
     add(
-        FeatureUIData(
+        OnboardingFeature(
             icon = MeshtasticIcons.Bluetooth,
             titleRes = Res.string.bluetooth_feature_discovery,
             subtitleRes = Res.string.bluetooth_feature_discovery_description,
         ),
     )
     add(
-        FeatureUIData(
+        OnboardingFeature(
             icon = MeshtasticIcons.Antenna,
             titleRes = Res.string.bluetooth_feature_config,
             subtitleRes = Res.string.bluetooth_feature_config_description,
@@ -119,14 +129,14 @@ private fun bluetoothScreenFeatures(requiresLocation: Boolean): List<FeatureUIDa
     // scope they were never shown.
     if (requiresLocation) {
         add(
-            FeatureUIData(
+            OnboardingFeature(
                 icon = MeshtasticIcons.LocationOn,
                 titleRes = Res.string.mesh_map_location,
                 subtitleRes = Res.string.mesh_map_location_description,
             ),
         )
         add(
-            FeatureUIData(
+            OnboardingFeature(
                 icon = MeshtasticIcons.LocationOn,
                 titleRes = Res.string.share_location,
                 subtitleRes = Res.string.share_location_description,

@@ -23,11 +23,8 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.getString
 import org.koin.core.annotation.KoinViewModel
 import org.meshtastic.core.ble.BluetoothRepository
-import org.meshtastic.core.datastore.FirmwareRecoveryDataSource
-import org.meshtastic.core.datastore.RecentAddressesDataSource
 import org.meshtastic.core.model.util.anonymize
 import org.meshtastic.core.network.repository.NetworkRepository
 import org.meshtastic.core.network.repository.UsbRepository
@@ -38,7 +35,10 @@ import org.meshtastic.core.repository.ServiceRepository
 import org.meshtastic.core.repository.UiPrefs
 import org.meshtastic.core.resources.Res
 import org.meshtastic.core.resources.bonding_failed_retry
+import org.meshtastic.core.resources.getStringSuspend
 import org.meshtastic.core.resources.usb_permission_denied
+import org.meshtastic.feature.connections.data.PendingFirmwareRecoverySource
+import org.meshtastic.feature.connections.data.RecentAddressesSource
 import org.meshtastic.feature.connections.model.AndroidUsbDeviceData
 import org.meshtastic.feature.connections.model.DeviceListEntry
 import org.meshtastic.feature.connections.model.GetDiscoveredDevicesUseCase
@@ -50,14 +50,14 @@ class AndroidScannerViewModel(
     radioController: RadioController,
     radioInterfaceService: RadioInterfaceService,
     radioPrefs: RadioPrefs,
-    recentAddressesDataSource: RecentAddressesDataSource,
+    recentAddressesDataSource: RecentAddressesSource,
     getDiscoveredDevicesUseCase: GetDiscoveredDevicesUseCase,
     networkRepository: NetworkRepository,
     dispatchers: org.meshtastic.core.di.CoroutineDispatchers,
     private val bluetoothRepository: BluetoothRepository,
     private val usbRepository: UsbRepository,
     uiPrefs: UiPrefs,
-    firmwareRecoveryDataSource: FirmwareRecoveryDataSource,
+    firmwareRecoveryDataSource: PendingFirmwareRecoverySource,
     bleScanner: org.meshtastic.core.ble.BleScanner? = null,
 ) : ScannerViewModel(
     serviceRepository,
@@ -106,7 +106,7 @@ class AndroidScannerViewModel(
                                 "waiting for an explicit retry"
                         }
                         serviceRepository.setErrorMessage(
-                            text = getString(Res.string.bonding_failed_retry),
+                            text = getStringSuspend(Res.string.bonding_failed_retry),
                             severity = Severity.Warn,
                         )
                         false
@@ -129,7 +129,7 @@ class AndroidScannerViewModel(
                 } else {
                     Logger.e { "USB permission denied for device ${entry.address.anonymize()}" }
                     serviceRepository.setErrorMessage(
-                        text = getString(Res.string.usb_permission_denied),
+                        text = getStringSuspend(Res.string.usb_permission_denied),
                         severity = Severity.Warn,
                     )
                 }

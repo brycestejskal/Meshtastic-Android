@@ -73,6 +73,10 @@
     <string name="analytics_okay">Разрешаване на анализи и докладване за сривове.</string>
     <string name="analytics_platforms">Аналитични платформи:</string>
     <!-- APP -->
+    <string name="app_database_backup_failed">Неуспешен запис на резервното копие.</string>
+    <string name="app_database_backup_saved">Резервното копие е запазено.</string>
+    <string name="app_database_restore_corrupt">Това резервно копие е повредено или непълно.</string>
+    <string name="app_database_restore_failed">Нeуспешно прочитане на резервното копие.</string>
     <string name="app_functions_get_channel_info">Получаване на информация за канала</string>
     <string name="app_functions_get_device_status">Получаване на състоянието на устройството</string>
     <string name="app_functions_get_mesh_status">Получаване на състоянието на mesh</string>
@@ -107,7 +111,6 @@
     <string name="bandwidth_unsupported_summary">Тази честотна лента не се поддържа от свързаното радио в избрания регион. Изберете поддържана стойност, преди да запазите.</string>
     <string name="baro_pressure">Баро</string>
     <string name="battery">Батерия</string>
-    <string name="battery_ina_2xx_i2c_address">I2C адрес на батерията INA_2XX</string>
     <string name="ble_devices">Bluetooth устройства</string>
     <string name="ble_scan_needs_location_services">За тази версия на Android сканирането чрез Bluetooth също изисква включени услуги за местоположение. Вашето местоположение не се използва.</string>
     <!-- BLUETOOTH -->
@@ -138,6 +141,15 @@
     <string name="cancel">Отказ</string>
     <string name="cant_change_no_radio">Каналът не може да бъде сменен, тъй като радиото все още не е свързано. Моля, опитайте отново.</string>
     <string name="cant_shutdown">Изключването не се поддържа на това устройство</string>
+    <!-- CARDINAL -->
+    <string name="cardinal_e">И</string>
+    <string name="cardinal_n">С</string>
+    <string name="cardinal_ne">СИ</string>
+    <string name="cardinal_nw">СЗ</string>
+    <string name="cardinal_s">Ю</string>
+    <string name="cardinal_se">ЮИ</string>
+    <string name="cardinal_sw">ЮЗ</string>
+    <string name="cardinal_w">З</string>
     <string name="ch_util_definition">Използване на текущия канал, включително добре формулиан TX, RX и деформиран RX (така наречен шум).</string>
     <!-- CHANNEL -->
     <string name="channel">К</string>
@@ -178,8 +190,11 @@
     <string name="client_notification">Известие за клиента</string>
     <string name="close">Затвори</string>
     <string name="close_selection">Затваряне на избраните</string>
+    <!-- CO2 -->
     <string name="co2">CO₂</string>
+    <string name="co2_level_good">Добър</string>
     <string name="collapse_chart">Свиване на диаграмата</string>
+    <string name="color_rgb_description">Червен %1$d, зелен %2$d, син %3$d</string>
     <string name="communicate_off_the_grid">Комуникирайте извън мрежата с вашите приятели и общността без клетъчна услуга.</string>
     <!-- COMPASS -->
     <string name="compass_bearing">Пеленг: %1$s</string>
@@ -214,8 +229,10 @@
     <string name="connected_device">Свързано устройство</string>
     <string name="connected_sleeping">Свързан е с радио, но рядиото е в режим на заспиване</string>
     <string name="connecting">Свързване</string>
+    <!-- CONNECTION -->
     <string name="connection_status">Текущи връзки:</string>
     <string name="connections">Свързване</string>
+    <string name="contact_pinned">Закачен</string>
     <string name="contrast">Контраст</string>
     <string name="contrast_high">Висок</string>
     <string name="contrast_medium">Среден</string>
@@ -253,9 +270,11 @@
     <string name="debug_search_prev">Предишно съответствие</string>
     <string name="debug_store_logs_summary">Деактивирайте, за да пропуснете записването на журналите на mesh мрежата на диска</string>
     <string name="debug_store_logs_title">Съхраняване на mesh мрежови журнали</string>
+    <string name="debug_tab_mirror">Огледало</string>
     <string name="debug_tab_packets">Пакети</string>
     <!-- DEEP -->
     <string name="deep_link_connect_title">Свързване с това устройство?</string>
+    <string name="deep_link_disconnect_title">Прекъсване на връзката с устройството ви?</string>
     <string name="default_">По подразбиране</string>
     <!-- DELETE -->
     <string name="delete">Изтриване</string>
@@ -292,6 +311,11 @@
     <string name="device_metrics_numeric_value">%1$s</string>
     <string name="device_metrics_percent_value">%1$s: %2$s%%</string>
     <string name="device_metrics_voltage_value">%1$s: %2$s V</string>
+    <string name="device_model_ar_camera_unavailable">Друго приложение използва камерата. Затворете го и опитайте отново.</string>
+    <string name="device_model_capture">Направете снимка</string>
+    <string name="device_model_capture_failed">Снимката не можа да бъде запазена</string>
+    <string name="device_model_capture_saved">Запазена в Снимки</string>
+    <string name="device_model_load_failed">Не можа да се зареди 3D моделът</string>
     <string name="device_sleeping">Устройството спи</string>
     <string name="device_theme_language">Тема: %1$s, Език: %2$s</string>
     <string name="dew_point">Точка на оросяване</string>
@@ -306,6 +330,7 @@
     <string name="discovery_delete_session">Изтриване на сесията</string>
     <string name="discovery_dwell_minutes">%1$d мин</string>
     <string name="discovery_keep_screen_awake">Поддържане на екрана активен</string>
+    <string name="discovery_not_connected">Не е свързано</string>
     <string name="discovery_not_connected_description">Свързване с устройство Meshtastic, за започване на сканирането.</string>
     <string name="discovery_scan_complete">Сесията е завършена</string>
     <string name="discovery_scan_failed">Сканирането не е успешно: %1$s</string>
@@ -345,6 +370,7 @@
     <!-- DOC -->
     <string name="doc_auto_translated">Автоматично преведено</string>
     <string name="doc_clear_search">Изчистване на търсенето</string>
+    <string name="doc_community_translated">Преведено от общността</string>
     <string name="doc_loading">Зареждане на документацията…</string>
     <string name="doc_no_content">Няма налично съдържание.</string>
     <string name="doc_no_documentation">Няма налична документация</string>
@@ -360,6 +386,7 @@
     <string name="doc_title_debug_logs">Журнали за отстраняване на грешки</string>
     <string name="doc_title_desktop">Настолно приложение</string>
     <string name="doc_title_firmware">Актуализации на фърмуера</string>
+    <string name="doc_title_help">Помощ &amp; документация в приложението</string>
     <string name="doc_title_map">Карта &amp; Пътни точки</string>
     <string name="doc_title_measurement">Измерване &amp; Форматиране</string>
     <string name="doc_title_messages">Съобщения &amp; Канали</string>
@@ -389,6 +416,7 @@
     <string name="dynamic">Динамична</string>
     <string name="easily_set_up_private_mesh_networks">Настройте лесно частни mesh мрежи за сигурна и надеждна комуникация в отдалечени райони.</string>
     <string name="edit">Редактирай</string>
+    <string name="edit_name">Редактиране на името</string>
     <string name="eight_hours">8 часа</string>
     <!-- EMOJI -->
     <string name="emoji_category_activities">Дейности</string>
@@ -447,11 +475,11 @@
     <string name="firmware_gate_update">Актуализиране на фърмуера</string>
     <string name="firmware_maintenance_bootloader_available">Последен: %1$s</string>
     <string name="firmware_maintenance_bootloader_installed">Инсталиран: %1$s</string>
-    <string name="firmware_maintenance_bootloader_latest_hint">Последна версия: %1$s. Инсталираната версия се показва, след като устройството се рестартира в режим на актуализация.</string>
     <string name="firmware_maintenance_bootloader_up_to_date">Буутлоудърът е актуален</string>
     <string name="firmware_maintenance_no_release">Първо изберете версия на фърмуера, за да може устройството да бъде преинсталирано след изтриване.</string>
     <string name="firmware_maintenance_unsupported_device">Това устройство не поддържа изтриване от приложението.</string>
     <string name="firmware_maintenance_upgrade_bootloader_action">Надграждане на буутлоудъра</string>
+    <string name="firmware_maintenance_upgrade_confirm_title">Надграждане на буутлоудъра?</string>
     <string name="firmware_old">Фърмуерът на радиото е твърде стар, за да общува с това приложение. За повече информация относно това вижте <a href="https://meshtastic.org/docs/getting-started/flashing-firmware">нашето ръководство за инсталиране на фърмуер</a>.</string>
     <string name="firmware_recovery_button">Възобновяване на актуализацията на фърмуера</string>
     <string name="firmware_too_old">Необходима е актуализация на фърмуера.</string>
@@ -460,6 +488,11 @@
     <string name="firmware_update_archive_missing_target">Не е намерен фърмуер за %2$s (%3$s) в "%1$s".</string>
     <string name="firmware_update_available">Налична е актуализация на фърмуера</string>
     <string name="firmware_update_battery_low">Батерията е твърде изтощена (%1$d%). Моля, заредете устройството си преди актуализиране.</string>
+    <string name="firmware_update_bootloader_downloading">Изтегляне на буутлоудъра...</string>
+    <string name="firmware_update_bootloader_installed">Буутлоудър: %1$s</string>
+    <string name="firmware_update_bootloader_installing">Инсталиране на буутлоудъра. Това отнема няколко минути.</string>
+    <string name="firmware_update_bootloader_latest">Най-нов буутлоудър: %1$s</string>
+    <string name="firmware_update_bootloader_uploading">Качване на буутлоудъра, стъпка 1 от 2...</string>
     <string name="firmware_update_checking">Проверка за актуализации...</string>
     <string name="firmware_update_connecting_attempt">Свързване с устройството (опит %1$d/%2$d)...</string>
     <string name="firmware_update_copying">High-five! Чакай, копирам фърмуера...</string>
@@ -517,7 +550,6 @@
     <string name="firmware_update_unsupported_transport">Актуализациите на фърмуера не се поддържат чрез тази връзка за това устройство. За да извършите актуализация, използвайте друг начин на свързване (напр. Bluetooth).</string>
     <string name="firmware_update_unsupported_update_method">Локални файлове с фърмуер не се поддържат за този метод на актуализация.</string>
     <string name="firmware_update_uploading">Качване на фърмуера...</string>
-    <string name="firmware_update_usb_bootloader_warning">%1$s обикновено се доставя с буутлоудър, който не поддържа OTA актуализации. Може да се наложи да флашнете OTA - съвместим буутлоудър през USB, преди да флашнете OTA.</string>
     <string name="firmware_update_usb_failed">Актуализацията през USB не е успешна</string>
     <string name="firmware_update_usb_instruction_title">Изберете DFU USB устройство</string>
     <string name="firmware_update_validating">Валидиране на фърмуера...</string>
@@ -564,6 +596,7 @@
     <!-- IAQ -->
     <string name="iaq">IAQ</string>
     <string name="iaq_definition">(Качество на въздуха в помещенията) относителна скала за IAQ, стойностите са измерени с Bosch BME680. Диапазон на стойностите 0–500.</string>
+    <string name="iaq_level_excellent">Отлично</string>
     <string name="iaq_level_good">Добър</string>
     <string name="iaq_value">IAQ %1$d</string>
     <string name="ignore">Игнорирай</string>
@@ -617,6 +650,7 @@
     <string name="licensed_mode_enable_title">Да се ​​активира лицензиран (Радиолюбителски) режим?</string>
     <!-- LIVE -->
     <string name="live_update_direct">Директно</string>
+    <string name="live_update_signal">SNR %1$s, RSSI %2$s</string>
     <string name="live_update_unread">%1$d непрочетени</string>
     <!-- LOAD -->
     <string name="load">Натоварване</string>
@@ -709,6 +743,7 @@
     <string name="map_offline_terrain_download_failed_io">Изтеглянето на терена е неуспешно – проверете връзката си и опитайте отново</string>
     <string name="map_offline_terrain_download_failed_tile_limit">Избраната област е твърде голяма за терена — увеличете мащаба или изберете по-малък регион</string>
     <string name="map_offline_terrain_downloading_progress">Изтегляне на терена… %1$d / %2$d плочки</string>
+    <string name="map_offline_unavailable">На това устройство не са наличниОфлайн картите  </string>
     <string name="map_overlay_precipitation">Валежи</string>
     <string name="map_overlay_weather_radar">Метеорологичен радар</string>
     <string name="map_purge_fail">Изчистването на SQL кеша е неуспешно, вижте logcat за подробности</string>
@@ -732,6 +767,7 @@
     <string name="max">Макс</string>
     <!-- MESH -->
     <string name="mesh_beacon_channel_number">Канал %1$d</string>
+    <string name="mesh_beacon_interval_error">Изберете интервал от поне един час</string>
     <string name="mesh_beacon_listen">Слушане за маяци</string>
     <string name="mesh_beacon_no_channels">Няма налични канали</string>
     <string name="mesh_beacon_offer_add">Добавяне на канал</string>
@@ -746,7 +782,19 @@
     <string name="mesh_beacon_target_channel_index">Канал</string>
     <string name="mesh_beacon_target_default">По подразбиране</string>
     <string name="mesh_beacon_target_remove">Премахване на целта</string>
+    <string name="mesh_hud_cardinal_east">И</string>
+    <string name="mesh_hud_cardinal_north">С</string>
+    <string name="mesh_hud_cardinal_south">Ю</string>
+    <string name="mesh_hud_cardinal_west">З</string>
+    <string name="mesh_hud_coach_point">Дръжте телефона високо и го насочете към хоризонта.</string>
     <string name="mesh_hud_joined">%1$s · %2$s</string>
+    <string name="mesh_hud_no_nodes">Няма възли с позиция</string>
+    <string name="mesh_hud_radar_description">%1$s, %2$s</string>
+    <string name="mesh_hud_snr">%1$s dB</string>
+    <plurals name="mesh_hud_track_points">
+        <item quantity="one">%1$d точка</item>
+        <item quantity="other">%1$d точки</item>
+    </plurals>
     <string name="mesh_map_location">Местоположение на mesh карта</string>
     <string name="mesh_map_location_description">Активира синята точка за местоположение на телефона ви в mesh карта.</string>
     <!-- MESHTASTIC -->
@@ -786,10 +834,10 @@
     <string name="metric_channel_label">%1$s %2$d</string>
     <string name="micrograms_per_cubic_meter">µg/m³</string>
     <string name="min">Мин</string>
-    <string name="minimum_wake_time_seconds">Минимално време за събуждане</string>
     <!-- MIRROR -->
     <string name="mirror_back">Назад</string>
     <string name="mirror_key_ok">Добре</string>
+    <string name="mirror_keyboard">Клавиатура</string>
     <string name="modem_preset">Предварително зададени</string>
     <string name="module_settings">Конфигуриране на модулите</string>
     <string name="modules_already_unlocked">Модулите вече са отключени</string>
@@ -812,8 +860,12 @@
     <string name="mqtt_status_reconnecting_with_attempt">Повторно свързване (опит %1$d) — %2$s</string>
     <string name="mqtt_test_connection">Тестване на връзката</string>
     <string name="mqtt_topic_finder_connecting">Свързване…</string>
+    <string name="mqtt_topic_finder_level_city">Град</string>
     <string name="mqtt_topic_finder_level_country">Държава</string>
     <string name="mqtt_topic_finder_level_region">Регион</string>
+    <string name="mqtt_topic_finder_level_subdivision">Щат или провинция</string>
+    <string name="mqtt_topic_finder_nodes">възли</string>
+    <string name="mqtt_topic_finder_nothing_heard"></string>
     <string name="must_set_region">Трябва да зададете регион!</string>
     <string name="must_update">Трябва да актуализирате това приложение в магазина за приложения (или GitHub). Приложението е твърде старо, за да говори с този фърмуер на радиото. Моля, прочетете нашите <a href="https://meshtastic.org/docs/software/android/installation">документи</a> по тази тема.</string>
     <!-- MUTE -->
@@ -830,6 +882,8 @@
     <string name="name">Име</string>
     <string name="name_cannot_be_empty">Името не може да бъде празно.</string>
     <string name="need_hardware">Нуждаете се от хардуер?</string>
+    <!-- NEIGHBOR -->
+    <string name="neighbor_count">Съседи</string>
     <string name="network">Мрежа</string>
     <string name="new_channel_rcvd">Получен е URL адрес на нов канал</string>
     <string name="new_messages_below">Нови съобщения по-долу</string>
@@ -945,6 +999,7 @@
     <string name="open_source_libraries">Библиотеки с отворен код</string>
     <string name="open_wifi_settings">Отваряне на настройките на Wi-Fi</string>
     <string name="options">Опции</string>
+    <string name="orp">ORP</string>
     <!-- PACKET -->
     <string name="packet_authenticity_level">Ниво на защита</string>
     <string name="password">Парола</string>
@@ -976,6 +1031,10 @@
         <item quantity="one">%1$d час</item>
         <item quantity="other">%1$d часа</item>
     </plurals>
+    <plurals name="plurals_milliseconds">
+        <item quantity="one">%1$d милисекунда</item>
+        <item quantity="other">%1$d милисекунди</item>
+    </plurals>
     <plurals name="plurals_minutes">
         <item quantity="one">%1$d минута</item>
         <item quantity="other">%1$d минути</item>
@@ -999,10 +1058,13 @@
     <string name="powered">Външно захранване</string>
     <string name="ppm">ppm</string>
     <string name="precise_location">Точно местоположение</string>
+    <string name="precise_location_insecure_channel">Не е налично в канал, който не е сигурно криптиран</string>
     <string name="preferences_language">Език</string>
     <string name="preferences_system_default">По подразбиране на системата</string>
     <string name="press_and_drag">Натиснете и плъзнете, за да пренаредите</string>
     <string name="pressure">Налягане</string>
+    <string name="pressure_high">Високо</string>
+    <string name="pressure_low">Ниско</string>
     <!-- PREVIEW -->
     <string name="preview_custom_composable_line_two">С множество линии и стилове</string>
     <string name="preview_dot">Точка</string>
@@ -1025,7 +1087,9 @@
     <string name="quick_chat_new">Нов бърз разговор</string>
     <string name="quick_chat_show">Показване на менюто за бърз чат</string>
     <string name="radiation">Радиация</string>
+    <!-- RADIO -->
     <string name="radio_configuration">Конфигурация на радиото</string>
+    <string name="radio_setup_name_headline">Име</string>
     <string name="rainfall_1h">Дъжд (1ч)</string>
     <string name="rainfall_24h">Дъжд (24 ч)</string>
     <string name="range_test">Тест на обхвата</string>
@@ -1038,6 +1102,7 @@
     <string name="refresh_metadata">Обновяване на метаданните</string>
     <string name="regenerate_keys_confirmation">Сигурни ли сте, че искате да генерирате отново своя частен ключ?\n\nВъзлите, които може да са обменяли преди това ключове с възела, ще трябва да го премахнат и да обменят отново ключове, за да възобновят защитената комуникация.</string>
     <string name="regenerate_private_key">Регенериране на частния ключ</string>
+    <string name="reload">Презареждане</string>
     <!-- REMOTE -->
     <string name="remote">Отдалечен</string>
     <string name="remote_admin">Отдалечено администриране</string>
@@ -1080,6 +1145,7 @@
     <string name="reset">Нулиране</string>
     <string name="reset_to_defaults">Възстановяване на настройките по подразбиране</string>
     <string name="retry">Опитайте отново</string>
+    <!-- RINGTONE -->
     <string name="ringtone">Тон на звънене</string>
     <string name="ringtone_file_empty">Файлът е празен</string>
     <string name="ringtone_import_error">Грешка при импортиране: %1$s</string>
@@ -1096,12 +1162,14 @@
     <string name="role_tak">TAK</string>
     <string name="role_tracker">Тракер</string>
     <!-- ROUTING -->
+    <string name="routing_error_admin_bad_session_key">Администраторската сесия е изтекла</string>
+    <string name="routing_error_admin_public_key_unauthorized">Администраторският ключ не е оторизиран</string>
     <string name="routing_error_bad_request">Невалидна заявка</string>
     <string name="routing_error_got_nak">Получено отрицателно потвърждение</string>
     <string name="routing_error_max_retransmit">Неуспешно доставяне към mesh</string>
     <string name="routing_error_no_interface">Няма радио интерфейс</string>
     <string name="routing_error_no_route">Няма маршрут</string>
-    <string name="routing_error_none">Признато</string>
+    <string name="routing_error_none">Доставено на получателя</string>
     <string name="routing_error_pki_failed">Не можа да се изпрати криптирано съобщение</string>
     <string name="routing_error_pki_send_fail_public_key">Ключът на получателя не е наличен</string>
     <string name="routing_error_pki_unknown_pubkey">Получателят се нуждае от вашия ключ</string>
@@ -1150,6 +1218,7 @@
     <string name="selected">Избрани</string>
     <string name="selected_map_type">Избран тип на картата</string>
     <string name="send">Изпрати</string>
+    <!-- SERIAL -->
     <string name="serial">Серийна</string>
     <string name="serial_config">Конфигуриране на серийната връзка</string>
     <string name="set_up_connection">Настройване на връзка</string>
@@ -1170,6 +1239,7 @@
     <string name="shutdown">Изключване</string>
     <string name="shutdown_node_name">Възел: %1$s</string>
     <string name="shutdown_warning">⚠️ Това ще ИЗКЛЮЧИ възела. Ще е необходимо физическо взаимодействие, за да се включи отново.</string>
+    <!-- SIGNAL -->
     <string name="signal">Сигнал</string>
     <string name="signal_quality">Качество на сигнала</string>
     <!-- SITE -->
@@ -1177,12 +1247,18 @@
     <string name="site_planner_antenna_height_meters">Височина на антената (м)</string>
     <string name="site_planner_color_scale">Цветова палитра</string>
     <string name="site_planner_frequency_mhz">Честота (MHz)</string>
+    <string name="site_planner_invalid_frequency">Въведете от 30 до 6000 MHz</string>
+    <string name="site_planner_invalid_latitude">Въведете от −90 до 90</string>
+    <string name="site_planner_invalid_longitude">Въведете от -180 до 180</string>
+    <string name="site_planner_invalid_max_range">Въведете от 1 до 150 км</string>
     <string name="site_planner_invalid_positive">Трябва да е по-голямо от 0</string>
+    <string name="site_planner_invalid_rx_sensitivity">Въведете от −150 до −30 dBm</string>
     <string name="site_planner_max_range_km">Максимален обхват (km)</string>
     <string name="site_planner_rx_height_meters">Височина на приемника (m)</string>
     <string name="site_planner_rx_sensitivity_dbm">Чувствителност на приемника (dBm)</string>
     <string name="site_planner_section_display">Дисплей</string>
     <string name="site_planner_section_receiver">Приемник</string>
+    <string name="site_planner_terrain_credit">Данни за терена © Mapterhorn</string>
     <string name="site_planner_tx_power_watts">Мощност на предавателя (W)</string>
     <string name="site_planner_use_current_location">Използване на текущото местоположение</string>
     <string name="site_planner_use_map_center">Използване на центъра на картата</string>
@@ -1196,7 +1272,6 @@
     <string name="speed_mph">%1$d mph</string>
     <string name="stay_connected_anywhere">Останете свързани навсякъде</string>
     <string name="success">Успех</string>
-    <string name="super_deep_sleep_duration_seconds">Продължителност на супер дълбок сън</string>
     <string name="supported">Поддържан</string>
     <string name="supported_by_community">Поддържа се от общността Meshtastic</string>
     <string name="swipe_action_delete">Изтриване</string>
@@ -1315,15 +1390,18 @@
     <string name="waypoint_edit">Редактиране на пътна точка</string>
     <string name="waypoint_new">Нова пътна точка</string>
     <string name="waypoint_received">Получена пътна точка: %1$s</string>
+    <!-- WEB -->
     <string name="website">Уебсайт</string>
     <string name="weight">Тегло</string>
     <string name="what_is_meshtastic">Какво е Meshtastic?</string>
     <string name="what_is_meshtastic_description">Мрежа с отворен код, работеща независимо от централизирана инфраструктура (off-grid), децентрализирана и изградена на принципа на мрежовата топология (mesh), която функционира чрез достъпни радиоустройства с ниска консумация на енергия.</string>
     <!-- WIDGET -->
-    <string name="widget_pair_value">%1$d / %2$d</string>
+    <string name="widget_packets_bad">Лош</string>
+    <string name="widget_telemetry_title">Телеметрия</string>
     <!-- WIFI -->
     <string name="wifi_config">Опции за Wi-Fi</string>
     <string name="wifi_devices">Осигуряване на Wi-Fi за mPWRD-OS</string>
+    <string name="wifi_ip">Wi-Fi IP:</string>
     <string name="wifi_provision_available_networks">Налични мрежи</string>
     <string name="wifi_provision_connect_failed">Не можа да се свърже: %1$s</string>
     <string name="wifi_provision_description">Предоставете идентификационни данни за Wi-Fi на вашето mPWRD-OS устройство чрез Bluetooth.</string>
@@ -1347,12 +1425,17 @@
     <string name="wifi_provision_success_ssh_command">ssh %1$s@%2$s</string>
     <string name="wifi_provision_success_username">Потребителско име</string>
     <string name="wifi_provisioning">Осигуряване на Wi-Fi за mPWRD-OS</string>
+    <string name="wifi_qr_code_scan">Сканирайте Wi-Fi QR код</string>
     <!-- WIND -->
     <string name="wind">Вятър</string>
     <string name="wind_direction">Посока на вятъра</string>
     <string name="wind_gust">Порив на вятъра</string>
     <string name="wind_speed">Скорост на вятъра</string>
     <!-- WRITE -->
+    <!-- XR -->
+    <string name="xr_terrain_layer_elevation">Височина</string>
+    <string name="xr_terrain_map">3D карта</string>
+    <string name="xr_terrain_unavailable">Теренът не можа да бъде зареден. Проверете връзката и опитайте отново.</string>
     <string name="you">Вие</string>
     <string name="zoom_in">Увеличаване</string>
     <string name="zoom_out">Намаляване</string>

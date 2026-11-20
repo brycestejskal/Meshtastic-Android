@@ -60,6 +60,7 @@ import org.meshtastic.app.map.tiles.RasterBasemap
 import org.meshtastic.app.map.tiles.RasterTileProvider
 import org.meshtastic.app.map.tiles.toRasterBasemap
 import org.meshtastic.core.common.util.LocaleUnitsProvider
+import org.meshtastic.core.common.util.nowSeconds
 import org.meshtastic.core.di.CoroutineDispatchers
 import org.meshtastic.core.model.NodeAddress
 import org.meshtastic.core.network.repository.NetworkRepository
@@ -73,13 +74,21 @@ import org.meshtastic.core.repository.RadioController
 import org.meshtastic.core.repository.UiPrefs
 import org.meshtastic.core.resources.Res
 import org.meshtastic.core.resources.getStringSuspend
+import org.meshtastic.core.resources.map_layer_formats
+import org.meshtastic.core.resources.map_layer_not_map_data
+import org.meshtastic.core.resources.map_layer_stored_too_large
+import org.meshtastic.core.resources.map_layer_too_detailed
+import org.meshtastic.core.resources.map_layer_too_large
 import org.meshtastic.core.resources.url_http_localhost_only
 import org.meshtastic.core.ui.viewmodel.stateInWhileSubscribed
 import org.meshtastic.feature.map.BaseMapViewModel
 import org.meshtastic.feature.map.layers.LayerOpacityStore
 import org.meshtastic.feature.map.layers.MapLayerItem
+import org.meshtastic.feature.map.layers.MapLayerProblem
+import org.meshtastic.feature.map.layers.MapLayerRefusal
 import org.meshtastic.feature.map.layers.MapLayersManager
 import org.meshtastic.feature.map.layers.PickedMapFile
+import org.meshtastic.feature.map.layers.maxSourceMegabytes
 import org.meshtastic.feature.map.shouldAutoUseOfflineBasemap
 import org.meshtastic.feature.map.terrain.GeoBounds
 import org.meshtastic.feature.map.terrain.TerrainDownloadState
@@ -511,7 +520,7 @@ class MapViewModel(
     // --- Offline vector regions (PMTiles-extracted) ---
 
     // Offline properties exposed as internal StateFlow for composable consumption
-    internal val offlineRegionStore = OfflineRegionStore(File(application.filesDir, "offline_regions"))
+    internal val offlineRegionStore = OfflineRegionStore(File(application.filesDir, OfflineRegionStore.DIRECTORY))
 
     // A single shared instance, not one per download call: OfflineRegionExtractor's mutex only serializes concurrent
     // downloads against each other if they all go through the same instance.
@@ -590,6 +599,13 @@ class MapViewModel(
     private val _terrainContoursEnabled = MutableStateFlow(false)
     val terrainContoursEnabled: StateFlow<Boolean> = _terrainContoursEnabled.asStateFlow()
 
+    private val _terrainShadeValleysEnabled = MutableStateFlow(false)
+    val terrainShadeValleysEnabled: StateFlow<Boolean> = _terrainShadeValleysEnabled.asStateFlow()
+
+    fun setTerrainShadeValleysEnabled(enabled: Boolean) {
+        _terrainShadeValleysEnabled.value = enabled
+    }
+
     fun setTerrainHillshadeEnabled(enabled: Boolean) {
         _terrainHillshadeEnabled.value = enabled
     }
@@ -655,6 +671,8 @@ class MapViewModel(
                 hasTerrain = true,
                 terrainByteSize = state.byteSize,
                 terrainHasRegionalDetail = state.hasRegionalDetail,
+                terrainSourceArchives = state.archives,
+                terrainDownloadedAtEpochSeconds = nowSeconds,
             ),
         )
         _offlineRegions.value = offlineRegionStore.list()
@@ -671,6 +689,7 @@ class MapViewModel(
     }
 
     init {
+        viewModelScope.launch { mapLayersManager.layerProblems.collect { _errorFlow.emit(it.message()) } }
         viewModelScope.launch {
             val savedCamera = googleMapsPrefs.cameraPosition.first()
             if (savedCamera == null) {
@@ -832,6 +851,18 @@ class MapViewModel(
     }
 
     suspend fun readLayerBytes(layerItem: MapLayerItem): ByteArray? = mapLayersManager.readLayerBytes(layerItem)
+
+    /** The map read [layerItem] but cannot draw it. [permanent] is false when hiding another layer would make room. */
+    fun reportLayerUndrawable(layerItem: MapLayerItem, refusal: MapLayerRefusal, permanent: Boolean = true) =
+        mapLayersManager.reportUndrawable(layerItem, refusal, permanent)
+
+    private suspend fun MapLayerProblem.message(): String = when {
+        refusal == MapLayerRefusal.TOO_DETAILED -> getStringSuspend(Res.string.map_layer_too_detailed, layerName)
+        refusal == MapLayerRefusal.NOT_MAP_DATA && atImport -> getStringSuspend(Res.string.map_layer_formats)
+        refusal == MapLayerRefusal.NOT_MAP_DATA -> getStringSuspend(Res.string.map_layer_not_map_data, layerName)
+        atImport -> getStringSuspend(Res.string.map_layer_too_large, layerType.maxSourceMegabytes())
+        else -> getStringSuspend(Res.string.map_layer_stored_too_large, layerName, layerType.maxSourceMegabytes())
+    }
 
     override fun onCleared() {
         super.onCleared()

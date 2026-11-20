@@ -43,6 +43,7 @@
     <string name="calculating">Υπολογισμός…</string>
     <string name="camera_permission">Άδεια κάμερας</string>
     <string name="cancel">Ακύρωση</string>
+    <!-- CARDINAL -->
     <!-- CHANNEL -->
     <string name="channel_1">Κανάλι 1</string>
     <string name="channel_2">Κανάλι 2</string>
@@ -61,9 +62,11 @@
     <!-- CLEAR -->
     <string name="clear">Καθαρό, Εκκαθάριση,</string>
     <string name="close">Κλείσιμο</string>
+    <!-- CO2 -->
     <!-- COMPASS -->
     <!-- CONFIG -->
     <string name="connected_sleeping">Συνδεδεμένο στο radio, αλλά βρίσκεται σε ύπνωση</string>
+    <!-- CONNECTION -->
     <string name="copy">Αντιγραφή</string>
     <!-- DEBUG -->
     <string name="debug_panel">Πίνακας αποσφαλμάτωσης</string>
@@ -174,6 +177,7 @@
     <string name="mute_always">Πάντα</string>
     <string name="mute_notifications">Σίγαση ειδοποιήσεων</string>
     <string name="name">Ονομα</string>
+    <!-- NEIGHBOR -->
     <string name="network">Δίκτυο</string>
     <string name="new_channel_rcvd">Λήψη URL νέου καναλιού</string>
     <!-- NO -->
@@ -216,7 +220,9 @@
     <string name="quick_chat_edit">Επεξεργασία ταχείας συνομιλίας</string>
     <string name="quick_chat_instant">Άμεση αποστολή</string>
     <string name="quick_chat_new">Νέα γρήγορη συνομιλία</string>
+    <!-- RADIO -->
     <string name="radio_configuration">Ρυθμίσεις συσκευής</string>
+    <string name="radio_setup_name_headline">Ονομα</string>
     <string name="reboot">Επανεκκίνηση</string>
     <!-- REMOTE -->
     <string name="remote_admin">Απομακρυσμένη Διαχείριση</string>
@@ -233,6 +239,7 @@
     <string name="resend">Αποστολή ξανά</string>
     <string name="reset">Επαναφορά</string>
     <string name="reset_to_defaults">Επαναφορά προεπιλογών</string>
+    <!-- RINGTONE -->
     <!-- ROLE -->
     <string name="role_client_base">Πελάτης Βάση</string>
     <!-- ROUTING -->
@@ -245,11 +252,13 @@
     <string name="security">Ασφάλεια</string>
     <string name="select_all">Επιλογή όλων</string>
     <string name="send">Αποστολή</string>
+    <!-- SERIAL -->
     <string name="settings">ρυθμίσεις</string>
     <!-- SHARE -->
     <string name="share">Κοινοποίηση</string>
     <!-- SHOW -->
     <string name="shutdown">Τερματισμός λειτουργίας</string>
+    <!-- SIGNAL -->
     <!-- SITE -->
     <string name="site_planner_section_display">Οθόνη</string>
     <string name="swipe_action_delete">Διαγραφή</string>
@@ -283,12 +292,15 @@
     <string name="waypoint_delete">Διαγραφή σημείου πορείας;</string>
     <string name="waypoint_edit">Επεξεργασία σημείου διαδρομής</string>
     <string name="waypoint_new">Νέο σημείο πορείας</string>
+    <!-- WEB -->
     <string name="weight">Βάρος</string>
     <!-- WIDGET -->
+    <string name="widget_telemetry_title">Τηλεμετρία</string>
     <!-- WIFI -->
     <string name="wifi_provision_success_ip_address">IP διεύθυνση</string>
     <string name="wifi_provision_success_username">Όνομα χρήστη</string>
     <!-- WIND -->
     <!-- WRITE -->
+    <!-- XR -->
     <string name="you">Εσύ</string>
 </resources>

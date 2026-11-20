@@ -61,9 +61,9 @@ import org.meshtastic.core.network.mqtt.LatLon
 import org.meshtastic.core.network.mqtt.MqttRootTopic
 import org.meshtastic.core.network.repository.effectiveTlsEnabled
 import org.meshtastic.core.resources.Res
-import org.meshtastic.core.resources.json_output_enabled
 import org.meshtastic.core.resources.mqtt
 import org.meshtastic.core.resources.mqtt_config
+import org.meshtastic.core.resources.mqtt_needs_websocket_url
 import org.meshtastic.core.resources.mqtt_probe_dns_failure
 import org.meshtastic.core.resources.mqtt_probe_other_failure
 import org.meshtastic.core.resources.mqtt_probe_rejected
@@ -92,6 +92,8 @@ import org.meshtastic.core.resources.schema_mqtt_enabled
 import org.meshtastic.core.resources.schema_mqtt_enabled_description
 import org.meshtastic.core.resources.schema_mqtt_encryption_enabled
 import org.meshtastic.core.resources.schema_mqtt_encryption_enabled_description
+import org.meshtastic.core.resources.schema_mqtt_json_enabled
+import org.meshtastic.core.resources.schema_mqtt_json_enabled_description
 import org.meshtastic.core.resources.schema_mqtt_map_reporting_enabled
 import org.meshtastic.core.resources.schema_mqtt_password
 import org.meshtastic.core.resources.schema_mqtt_proxy_to_client_enabled
@@ -265,7 +267,9 @@ fun MQTTConfigScreen(viewModel: RadioConfigViewModel, onBack: () -> Unit) {
                 HorizontalDivider()
                 if (capabilities.offers(ModuleConfig.MQTTConfig.json_enabled, isSet = formState.value.json_enabled)) {
                     SwitchPreference(
-                        title = stringResource(Res.string.json_output_enabled),
+                        title = stringResource(Res.string.schema_mqtt_json_enabled),
+                        modifier = Modifier.settingsField(Res.string.schema_mqtt_json_enabled),
+                        summary = stringResource(Res.string.schema_mqtt_json_enabled_description),
                         checked = formState.value.json_enabled,
                         enabled = state.connected,
                         onCheckedChange = {
@@ -575,6 +579,9 @@ private fun MqttProbeStatus?.toLabel(): Pair<String, Color>? = when (this) {
 
     is MqttProbeStatus.Timeout ->
         stringResource(Res.string.mqtt_probe_timeout, timeoutMs.toInt()) to MaterialTheme.colorScheme.error
+
+    MqttProbeStatus.NeedsWebSocketUrl ->
+        stringResource(Res.string.mqtt_needs_websocket_url) to MaterialTheme.colorScheme.error
 
     is MqttProbeStatus.Other ->
         stringResource(Res.string.mqtt_probe_other_failure) to MaterialTheme.colorScheme.error

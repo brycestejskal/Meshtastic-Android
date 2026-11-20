@@ -23,6 +23,8 @@ The Compose Desktop host for the shared KMP module graph. It runs the same `core
 
 Packaging builds the formats of the host it runs on: DMG on macOS, MSI and EXE on Windows, DEB, RPM and a jpackage app-image on Linux. CI wraps that app-image into a real `.AppImage` with `scripts/build-appimage.sh`. A release build (`-Pdesktop.release=true`) sets `IS_DEBUG=false`, which turns off debug HTTP logging and turns on the update check.
 
+The packaged app sets no `-Xmx`, so the JVM's default maximum heap applies, a quarter of the machine's RAM; a fixed cap above physical RAM would let the heap outgrow a small board. The `.deb` gets `Recommends: fonts-noto-color-emoji` in `RewriteDebDependencyNames`, because a minimal desktop has no color emoji font and draws emoji as boxes.
+
 ## Distribution
 
 Releases ship the installers on [GitHub Releases](https://github.com/meshtastic/Meshtastic-Android/releases) and a Flatpak on [Flathub](https://flathub.org/apps/org.meshtastic.MeshtasticDesktop). `RELEASE_PROCESS.md` covers signing and the store workflows.
@@ -54,7 +56,7 @@ The module depends on the JVM variants of the KMP modules: every `core:*` module
 
 **UI:** JetBrains Compose for Desktop with Material 3 theming. Desktop is a thin host shell that delegates almost entirely to the shared KMP UI modules. The tray uses Compose's `Tray` on macOS and Windows, and a StatusNotifierItem over D-Bus on Linux (`tray/SniTray.kt`), since AWT's XEmbed tray loses clicks on GNOME and Plasma.
 
-**Notifications:** `DesktopNotificationManager` implements the common `NotificationManager` interface and forwards to a native sender: `UNUserNotificationCenter` on macOS, libnotify on Linux, a PowerShell toast on Windows. It falls back to Compose `TrayState` notifications when native delivery fails. macOS requires a consistent `bundleID` (configured in `build.gradle.kts`) for proper app attribution.
+**Notifications:** `DesktopNotificationManager` implements the common `NotificationManager` interface and forwards to a native sender: `UNUserNotificationCenter` on macOS, libnotify on Linux, a PowerShell toast on Windows. It falls back to Compose `TrayState` notifications when native delivery fails. `core:service`'s `DispatchingMeshNotificationManager`, shared with web, turns mesh events into the `Notification`s it receives. macOS requires a consistent `bundleID` (configured in `build.gradle.kts`) for proper app attribution.
 
 **Localization:** Desktop exposes a language picker that persists the selected BCP-47 tag in `UiPrefs.locale`. `Main.kt` resolves it against the system locale (`resolveLocale`) and applies it as the JVM default `Locale`.
 
@@ -68,8 +70,6 @@ The module depends on the JVM variants of the KMP modules: every `core:*` module
 | `ui/DesktopMainScreen.kt` | Navigation 3 shell: shared app shell, navigation suite and `MeshtasticNavDisplay` |
 | `navigation/DesktopNavigation.kt` | Nav graph entry registrations for all top-level destinations (delegates to shared feature graphs) |
 | `radio/DesktopRadioTransportFactory.kt` | Provides TCP, Serial/USB (jSerialComm) and BLE (Kable) transports |
-| `radio/DesktopMessageQueue.kt` | Sends queued outbound messages straight through the active radio controller (no WorkManager) |
-| `notification/DesktopMeshNotificationManager.kt` | Desktop `MeshNotificationManager`; converts mesh events into `Notification`s and dispatches them |
 | `notification/NativeNotificationSender.kt` | Native-sender contract, implemented by `MacOSNotificationSender` / `WindowsNotificationSender` / `LinuxNotificationSender` |
 | `DesktopNotificationManager.kt` | Bridge between repository notifications, the native senders and the Compose `TrayState` fallback |
 | `UpdateChecker.kt` | Compares the running version with GitHub's latest production release |

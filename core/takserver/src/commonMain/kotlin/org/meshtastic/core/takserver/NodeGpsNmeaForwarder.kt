@@ -27,12 +27,8 @@ import org.meshtastic.core.common.util.safeCatching
 import org.meshtastic.core.di.CoroutineDispatchers
 import org.meshtastic.core.model.ConnectionState
 import org.meshtastic.core.model.Node
+import org.meshtastic.core.repository.NodeGpsNmeaController
 import kotlin.time.Instant
-
-/** Repeats the connected node's GPS to ATAK for as long as [scope] lives. */
-fun interface NodeGpsNmeaController {
-    fun start(scope: CoroutineScope)
-}
 
 /**
  * While the TAK setting is on and the radio is connected, sends the local node's fix to `127.0.0.1:4349` every

@@ -57,10 +57,12 @@ class BundledSqliteGuardTest {
             add("org.meshtastic.core.service.BootCompleteReceiver")
             add("org.meshtastic.core.service.MeshService")
             add("org.meshtastic.core.service.ConversationActionService")
+            add("org.meshtastic.core.service.LiveUpdateStopReceiver")
             add("org.meshtastic.core.service.MeshQuickSettingsTileService")
             add("org.meshtastic.core.nfc.MeshtasticHostApduService")
             add("org.meshtastic.feature.widget.LocalStatsWidgetReceiver")
             add("org.meshtastic.feature.widget.NodeTrackerWidgetReceiver")
+            add("org.meshtastic.feature.widget.TelemetryWidgetReceiver")
             if (BuildConfig.FLAVOR == "google") add("org.meshtastic.app.ai.appfunctions.MeshtasticAppFunctionService")
         }
 

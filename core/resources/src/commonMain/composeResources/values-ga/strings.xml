@@ -43,6 +43,7 @@
     <string name="cancel">Cealaigh</string>
     <string name="cant_change_no_radio">Ní féidir an cainéal a athrú, toisc nach bhfuil an raidió nasctha fós. Déan iarracht arís.</string>
     <string name="cant_shutdown">Ní tacaítear le dúnadh ar an ngléas seo</string>
+    <!-- CARDINAL -->
     <string name="ch_util_definition">Úsáid na cainéil reatha, lena n-áirítear TX ceartaithe, RX agus RX mícheart (anáilís ar na fuaimeanna).</string>
     <!-- CHANNEL -->
     <string name="channel_invalid">Tá an URL Cainéil seo neamhdhleathach agus ní féidir é a úsáid</string>
@@ -53,9 +54,12 @@
     <!-- CLEAR -->
     <string name="clear">Glan</string>
     <string name="close">Dún</string>
+    <!-- CO2 -->
+    <string name="co2_level_good">Maith</string>
     <!-- COMPASS -->
     <!-- CONFIG -->
     <string name="connected_sleeping">Ceangailte le raidió, ach tá sé ina chodladh</string>
+    <!-- CONNECTION -->
     <!-- DEBUG -->
     <string name="debug_panel">Painéal Laige</string>
     <!-- DEEP -->
@@ -174,6 +178,7 @@
     <string name="mute_notifications">Cuir foláirimh i gcíocha</string>
     <string name="name">Ainm</string>
     <string name="navigate_back">Súil Siar</string>
+    <!-- NEIGHBOR -->
     <string name="new_channel_rcvd">URL Cainéal nua faighte</string>
     <!-- NO -->
     <!-- NODE -->
@@ -216,7 +221,9 @@
     <string name="quick_chat_edit">Cuir comhrá tapa in eagar</string>
     <string name="quick_chat_instant">Seol láithreach</string>
     <string name="quick_chat_new">Comhrá tapa nua</string>
+    <!-- RADIO -->
     <string name="radio_configuration">Cumraíocht raidió</string>
+    <string name="radio_setup_name_headline">Ainm</string>
     <string name="reboot">Athmhaoinigh</string>
     <!-- REMOTE -->
     <string name="remote_admin">Rialú iargúlta</string>
@@ -232,11 +239,11 @@
     <string name="resend">Seol arís</string>
     <string name="reset">Athshocraigh</string>
     <string name="reset_to_defaults">Athshocrú go dtí na réamhshocruithe</string>
+    <!-- RINGTONE -->
     <!-- ROLE -->
     <!-- ROUTING -->
     <string name="routing_error_got_nak">Fáilte atá faighte le haghaidh niúúáil</string>
     <string name="routing_error_no_route">Gan route</string>
-    <string name="routing_error_none">Faighte</string>
     <string name="routing_error_timeout">Am tráth</string>
     <string name="rssi_definition">Táscaire Cumhachta Athnuachana Aithint an Aoise, tomhas a úsáidtear chun leibhéal cumhachta atá faighte ag an antsnáithe a mheas. Léiríonn RSSI níos airde gnóthachtáil níos laige atá i gceangal seasmhach agus níos láidre.</string>
     <string name="save">Sábháil</string>
@@ -246,10 +253,12 @@
     <!-- SECURITY -->
     <string name="select_all">Roghnaigh go léir</string>
     <string name="send">Seol</string>
+    <!-- SERIAL -->
     <!-- SHARE -->
     <string name="share">Roinn</string>
     <!-- SHOW -->
     <string name="shutdown">Dún</string>
+    <!-- SIGNAL -->
     <string name="signal">Sígneal</string>
     <string name="signal_quality">Cáilíocht na Sígneal</string>
     <!-- SITE -->
@@ -290,10 +299,13 @@
     <string name="waypoint_edit">Cuir in eagar an pointe bealach</string>
     <string name="waypoint_new">Pointe bealach nua</string>
     <string name="waypoint_received">Pointe bealach faighte: %1$s</string>
+    <!-- WEB -->
     <!-- WIDGET -->
+    <string name="widget_packets_bad">Go dona</string>
     <!-- WIFI -->
     <string name="wifi_provision_success_ip_address">Seoladh IP</string>
     <!-- WIND -->
     <!-- WRITE -->
+    <!-- XR -->
     <string name="you">Tú</string>
 </resources>

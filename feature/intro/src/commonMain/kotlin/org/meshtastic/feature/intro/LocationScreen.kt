@@ -33,6 +33,7 @@ import org.meshtastic.core.resources.phone_location
 import org.meshtastic.core.resources.phone_location_description
 import org.meshtastic.core.resources.share_location
 import org.meshtastic.core.resources.share_location_description
+import org.meshtastic.core.ui.component.OnboardingFeature
 import org.meshtastic.core.ui.icon.HardwareModel
 import org.meshtastic.core.ui.icon.LocationOn
 import org.meshtastic.core.ui.icon.MeshtasticIcons
@@ -49,27 +50,33 @@ import org.meshtastic.core.ui.util.PermissionStatus
  * @param status Live permission status; drives the primary action and the denied/blocked notice.
  * @param onSkip Callback invoked if the user chooses to skip location permission setup.
  * @param onPrimaryAction Callback for the status-driven primary action (request, open settings, or advance).
+ * @param inBrowser the browser owns the permission, so a block is undone in its site settings.
  */
 @Composable
-internal fun LocationScreen(status: PermissionStatus, onSkip: () -> Unit, onPrimaryAction: () -> Unit) {
+internal fun LocationScreen(
+    status: PermissionStatus,
+    onSkip: () -> Unit,
+    onPrimaryAction: () -> Unit,
+    inBrowser: Boolean = false,
+) {
     val features =
         listOf(
-            FeatureUIData(
+            OnboardingFeature(
                 icon = MeshtasticIcons.LocationOn,
                 titleRes = Res.string.share_location,
                 subtitleRes = Res.string.share_location_description,
             ),
-            FeatureUIData(
+            OnboardingFeature(
                 icon = MeshtasticIcons.HardwareModel,
                 titleRes = Res.string.distance_measurements,
                 subtitleRes = Res.string.distance_measurements_description,
             ),
-            FeatureUIData(
+            OnboardingFeature(
                 icon = MeshtasticIcons.HardwareModel,
                 titleRes = Res.string.distance_filters,
                 subtitleRes = Res.string.distance_filters_description,
             ),
-            FeatureUIData(
+            OnboardingFeature(
                 icon = MeshtasticIcons.LocationOn,
                 titleRes = Res.string.mesh_map_location,
                 subtitleRes = Res.string.mesh_map_location_description,
@@ -86,6 +93,7 @@ internal fun LocationScreen(status: PermissionStatus, onSkip: () -> Unit, onPrim
         configureButtonTextRes = Res.string.configure_location_permissions,
         onSkip = onSkip,
         onPrimaryAction = onPrimaryAction,
+        inBrowser = inBrowser,
     )
 }
 

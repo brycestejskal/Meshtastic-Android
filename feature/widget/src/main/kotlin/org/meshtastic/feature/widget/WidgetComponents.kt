@@ -39,6 +39,7 @@ import androidx.glance.layout.size
 import androidx.glance.layout.width
 import androidx.glance.semantics.contentDescription
 import androidx.glance.semantics.semantics
+import androidx.glance.semantics.testTag
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
@@ -50,10 +51,12 @@ internal fun WidgetMark(size: Dp) {
     Image(
         provider = ImageProvider(R.drawable.widget_app_icon),
         contentDescription = null,
-        modifier = GlanceModifier.size(size),
+        modifier = GlanceModifier.size(size).semantics { testTag = WIDGET_MARK_TEST_TAG },
         colorFilter = ColorFilter.tint(GlanceTheme.colors.onSurface),
     )
 }
+
+internal const val WIDGET_MARK_TEST_TAG = "widget_mark"
 
 /**
  * The brand header both widgets carry from two cells tall up: the mark and the widget's name, with an optional trailing
@@ -135,13 +138,18 @@ private fun HeroText(text: String, isWord: Boolean, description: String?, isStal
     )
 }
 
+/** One labeled reading, the unit a [StatGrid] lays out. */
+internal data class Reading(val label: String, val value: String)
+
 /** A label on the left and its value on the right, the one reading row both widgets use. */
 @Composable
-internal fun StatRow(label: String, value: String, isStale: Boolean = false) {
-    Row(
-        modifier = GlanceModifier.fillMaxWidth().padding(vertical = 2.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
+internal fun StatRow(
+    label: String,
+    value: String,
+    modifier: GlanceModifier = GlanceModifier.fillMaxWidth(),
+    isStale: Boolean = false,
+) {
+    Row(modifier = modifier.padding(vertical = 2.dp), verticalAlignment = Alignment.CenterVertically) {
         Text(
             text = label,
             maxLines = 1,
@@ -152,6 +160,45 @@ internal fun StatRow(label: String, value: String, isStale: Boolean = false) {
         ValueText(value, isStale)
     }
 }
+
+/**
+ * [readings] as [StatRow]s, up to [columns] to a line, in reading order across then down. A short last line keeps its
+ * cells the width of the others. Readings that all fit in one column of [lines] take one, so a tall cell fills with
+ * lines rather than with gaps between sections, and when they still leave lines over, the lines spread across the
+ * height [modifier] gives the grid rather than leaving a block under them.
+ */
+@Composable
+internal fun StatGrid(
+    readings: List<Reading>,
+    columns: Int,
+    lines: Int,
+    modifier: GlanceModifier = GlanceModifier,
+    isStale: Boolean = false,
+) {
+    val perLine = if (readings.size <= lines) 1 else columns
+    val chunks = readings.chunked(perLine)
+    val spread = chunks.size < lines
+    Column(modifier = modifier.fillMaxWidth()) {
+        chunks.forEach { line ->
+            Row(
+                modifier = if (spread) GlanceModifier.fillMaxWidth().defaultWeight() else GlanceModifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                repeat(perLine) { index ->
+                    if (index > 0) Spacer(GlanceModifier.width(GRID_GUTTER))
+                    val reading = line.getOrNull(index)
+                    if (reading == null) {
+                        Spacer(GlanceModifier.defaultWeight())
+                    } else {
+                        StatRow(reading.label, reading.value, GlanceModifier.defaultWeight(), isStale)
+                    }
+                }
+            }
+        }
+    }
+}
+
+private val GRID_GUTTER = 12.dp
 
 /** A [StatRow] over a 0..1 bar, for utilization. */
 @Composable

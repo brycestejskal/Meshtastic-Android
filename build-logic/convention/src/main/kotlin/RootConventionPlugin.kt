@@ -16,12 +16,16 @@
  */
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.configuration.BuildFeatures
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.register
 import org.meshtastic.buildlogic.configureDokkaAggregation
 import org.meshtastic.buildlogic.configureGraphTasks
 import org.meshtastic.buildlogic.configureKover
 import org.meshtastic.buildlogic.configureKoverAggregation
+import org.meshtastic.buildlogic.configureWasmToolingDownloads
+import org.meshtastic.buildlogic.requireIsolatedProjectsOffForWeb
+import javax.inject.Inject
 
 /**
  * Root convention plugin applied to the top-level project.
@@ -31,10 +35,11 @@ import org.meshtastic.buildlogic.configureKoverAggregation
  * / `allprojects {}` iteration, which performs cross-project configuration access incompatible with Gradle Isolated
  * Projects.
  */
-class RootConventionPlugin : Plugin<Project> {
+abstract class RootConventionPlugin @Inject constructor(private val buildFeatures: BuildFeatures) : Plugin<Project> {
     override fun apply(target: Project) {
         require(target.path == ":")
         with(target) {
+            requireIsolatedProjectsOffForWeb(buildFeatures)
             val modules = allModules()
 
             apply(plugin = "org.jetbrains.dokka")
@@ -48,6 +53,7 @@ class RootConventionPlugin : Plugin<Project> {
             configureGraphTasks()
             registerKmpSmokeCompileTask()
             registerBuildLogicLintTasks()
+            configureWasmToolingDownloads()
         }
     }
 }
@@ -141,11 +147,12 @@ private val ALL_MODULES_FULL =
         ":feature:firmware",
         ":feature:wifi-provision",
         ":feature:widget",
+        ":feature:xr",
         ":desktopApp",
     )
 
 /** Android-only modules that don't apply the KMP plugin. */
-private val ANDROID_ONLY_MODULES = setOf(":androidApp", ":core:barcode", ":core:nfc", ":feature:widget")
+private val ANDROID_ONLY_MODULES = setOf(":androidApp", ":core:barcode", ":core:nfc", ":feature:widget", ":feature:xr")
 
 /**
  * Modules excluded from Dokka aggregation.
@@ -170,6 +177,6 @@ private fun allModules(): List<String> = ALL_MODULES_FULL
 
 /**
  * Modules that apply the KMP plugin and should be compiled for JVM and `iosSimulatorArm64`. Excludes pure-Android
- * modules (:androidApp, :core:barcode, :core:nfc, :feature:widget) and the desktop JVM-only module.
+ * modules (:androidApp, :core:barcode, :core:nfc, :feature:widget, :feature:xr) and the desktop JVM-only module.
  */
 private fun kmpModules(): List<String> = allModules().filter { it !in ANDROID_ONLY_MODULES + ":desktopApp" }

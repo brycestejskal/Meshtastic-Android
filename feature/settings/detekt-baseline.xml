@@ -84,6 +84,7 @@
     <ID>ParameterNaming:ExternalNotificationConfigScreen.android.kt:onRingtoneImported: (String) -> Unit</ID>
     <ID>ParameterNaming:ExternalNotificationConfigScreen.ios.kt:onRingtoneImported: (String) -> Unit</ID>
     <ID>ParameterNaming:ExternalNotificationConfigScreen.jvm.kt:onRingtoneImported: (String) -> Unit</ID>
+    <ID>ParameterNaming:ExternalNotificationConfigScreen.wasmJs.kt:onRingtoneImported: (String) -> Unit</ID>
     <ID>ParameterNaming:ExternalNotificationConfigScreen.kt:onRingtoneImported: (String) -> Unit</ID>
     <ID>ParameterNaming:MapReportingPreference.kt:onMapReportingEnabledChanged: (Boolean) -> Unit = {}</ID>
     <ID>ParameterNaming:MapReportingPreference.kt:onPositionPrecisionChanged: (Int) -> Unit = {}</ID>
@@ -93,8 +94,11 @@
     <ID>ParameterNaming:PositionConfigScreen.ios.kt:onLocationReceived: (Position) -> Unit</ID>
     <ID>ParameterNaming:PositionConfigScreen.jvm.kt:onLocationReceived: (Position) -> Unit</ID>
     <ID>ParameterNaming:PositionConfigScreen.kt:onLocationReceived: (Position) -> Unit</ID>
+    <ID>ParameterNaming:PositionConfigScreen.wasmJs.kt:onLocationReceived: (Position) -> Unit</ID>
     <ID>PreviewPublic:AppInfoSection.kt:@Preview(showBackground = true) @Composable fun AppInfoSectionPreview</ID>
     <ID>PreviewPublic:AppearanceSection.kt:@Preview(showBackground = true) @Composable fun AppearanceSectionPreview</ID>
+    <ID>PreviewPublic:ChannelSharePreviews.kt:@PreviewLightDark @Composable fun ChannelShareAddPreview</ID>
+    <ID>PreviewPublic:ChannelSharePreviews.kt:@PreviewLightDark @Composable fun ChannelShareReplacePreview</ID>
     <ID>PreviewPublic:NodeLayoutSettingsPreviews.kt:@PreviewLightDark @Composable fun NodeLayoutSettingsCompactPreview</ID>
     <ID>PreviewPublic:NodeLayoutSettingsPreviews.kt:@PreviewLightDark @Composable fun NodeLayoutSettingsCompletePreview</ID>
     <ID>PreviewPublic:PersistenceSection.kt:@Preview(showBackground = true) @Composable fun PersistenceSectionPreview</ID>

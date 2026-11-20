@@ -70,7 +70,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import okio.Path.Companion.toPath
 import org.jetbrains.compose.resources.decodeToSvgPainter
-import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
@@ -85,7 +84,6 @@ import org.meshtastic.core.common.state.LaunchOptions
 import org.meshtastic.core.common.util.CommonUri
 import org.meshtastic.core.common.util.ioDispatcher
 import org.meshtastic.core.database.desktopDataDir
-import org.meshtastic.core.model.DeviceAddress
 import org.meshtastic.core.navigation.MultiBackstack
 import org.meshtastic.core.navigation.SettingsRoute
 import org.meshtastic.core.navigation.TopLevelDestination
@@ -99,9 +97,12 @@ import org.meshtastic.core.resources.desktop_tray_tooltip
 import org.meshtastic.core.resources.desktop_update_available_message
 import org.meshtastic.core.resources.desktop_update_available_title
 import org.meshtastic.core.resources.desktop_update_download
+import org.meshtastic.core.resources.getStringSuspend
 import org.meshtastic.core.service.MeshLogCleanup
 import org.meshtastic.core.service.MeshServiceOrchestrator
+import org.meshtastic.core.ui.navigation.startDestination
 import org.meshtastic.core.ui.theme.AppTheme
+import org.meshtastic.core.ui.theme.isDarkTheme
 import org.meshtastic.core.ui.util.LocalDiscoveryMapProvider
 import org.meshtastic.core.ui.util.LocalEventBranding
 import org.meshtastic.core.ui.util.LocalInlineMapProvider
@@ -118,6 +119,7 @@ import org.meshtastic.desktop.data.DesktopPreferencesDataSource
 import org.meshtastic.desktop.di.DesktopKoinApp
 import org.meshtastic.desktop.map.DesktopTracerouteMap
 import org.meshtastic.desktop.map.desktopMapViewProvider
+import org.meshtastic.desktop.mcp.DesktopMcpLifecycle
 import org.meshtastic.desktop.notification.DesktopOS
 import org.meshtastic.desktop.notification.NativeNotificationSender
 import org.meshtastic.desktop.tray.SniTrayEffect
@@ -190,6 +192,7 @@ fun main(args: Array<String>) {
 
         DeepLinkHandler(args, uiViewModel, remember { koinApp.koin.get<LaunchOptions>() })
         MeshServiceLifecycle()
+        DesktopMcpLifecycle()
         // Desktop has no WorkManager, so the hourly mesh log cleanup lives as long as the application composition.
         LaunchedEffect(Unit) { withContext(ioDispatcher) { koinApp.koin.get<MeshLogCleanup>().runHourly() } }
         ThemeAndLocaleProvider(uiViewModel)
@@ -269,14 +272,7 @@ private fun ApplicationScope.ThemeAndLocaleProvider(uiViewModel: UIViewModel) {
     val localePref by uiPrefs.locale.collectAsState(initial = "")
     Locale.setDefault(resolveLocale(localePref, systemLocale))
 
-    val isDarkTheme =
-        when (themePref) {
-            1 -> false
-            2 -> true
-            else -> isSystemInDarkTheme()
-        }
-
-    MeshtasticDesktopApp(uiViewModel, isDarkTheme)
+    MeshtasticDesktopApp(uiViewModel, isDarkTheme(themePref))
 }
 
 // ----- Application chrome (tray, window, navigation) -----
@@ -387,8 +383,8 @@ private fun rememberAvailableUpdate(notificationManager: DesktopNotificationMana
         updateInfo?.let { update ->
             notificationManager.dispatch(
                 Notification(
-                    title = getString(Res.string.desktop_update_available_title),
-                    message = getString(Res.string.desktop_update_available_message, update.versionName),
+                    title = getStringSuspend(Res.string.desktop_update_available_title),
+                    message = getStringSuspend(Res.string.desktop_update_available_message, update.versionName),
                     category = Notification.Category.Service,
                 ),
             )
@@ -448,15 +444,7 @@ private fun ApplicationScope.MeshtasticWindow(
     visible: Boolean,
     onCloseRequest: () -> Unit,
 ) {
-    val multiBackstack =
-        rememberMultiBackstack(
-            // Land on Connections for first-run / no-device-selected; otherwise on Nodes.
-            if (DeviceAddress.parse(uiViewModel.currentDeviceAddressFlow.value) == null) {
-                TopLevelDestination.Connect.route
-            } else {
-                TopLevelDestination.Nodes.route
-            },
-        )
+    val multiBackstack = rememberMultiBackstack(startDestination(uiViewModel.currentDeviceAddressFlow.value))
 
     Window(
         onCloseRequest = onCloseRequest,

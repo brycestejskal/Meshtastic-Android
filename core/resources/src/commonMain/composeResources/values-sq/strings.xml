@@ -43,6 +43,7 @@
     <string name="cancel">Anullo</string>
     <string name="cant_change_no_radio">Nuk mund të ndryshoni kanalin, sepse radioja ende nuk është lidhur. Ju lutemi provoni përsëri.</string>
     <string name="cant_shutdown">Fikja nuk mbështetet në këtë pajisje</string>
+    <!-- CARDINAL -->
     <string name="ch_util_definition">Përdorimi për kanalin aktual, duke përfshirë TX të formuar mirë, RX dhe RX të dëmtuar (në gjuhën e thjeshtë: zhurmë).</string>
     <!-- CHANNEL -->
     <string name="channel_invalid">Ky URL kanal është i pavlefshëm dhe nuk mund të përdoret</string>
@@ -53,6 +54,8 @@
     <!-- CLEAR -->
     <string name="clear">Pastro</string>
     <string name="close">Mbylle</string>
+    <!-- CO2 -->
+    <string name="co2_level_good">Mirë</string>
     <!-- COMPASS -->
     <string name="compass_bearing">Азимут: %1$s</string>
     <string name="compass_bearing_na">Азимут: Н/А</string>
@@ -60,6 +63,7 @@
     <string name="compass_no_location_permission">Нужно разрешение на доступ к местоположению, чтобы показывать расстояние и азимут.</string>
     <!-- CONFIG -->
     <string name="connected_sleeping">E lidhur me radio, por është në gjumë</string>
+    <!-- CONNECTION -->
     <!-- DEBUG -->
     <string name="debug_panel">Paneli i debug-ut</string>
     <!-- DEEP -->
@@ -176,6 +180,7 @@
     <string name="mute_notifications">Hesht njoftimet</string>
     <string name="name">Emri</string>
     <string name="navigate_back">Kthehu pas</string>
+    <!-- NEIGHBOR -->
     <string name="new_channel_rcvd">Ju keni një kanal radio të ri URL</string>
     <!-- NO -->
     <!-- NODE -->
@@ -219,7 +224,9 @@
     <string name="quick_chat_edit">Redakto bisedën e shpejtë</string>
     <string name="quick_chat_instant">Dërgo menjëherë</string>
     <string name="quick_chat_new">Bisedë e re e shpejtë</string>
+    <!-- RADIO -->
     <string name="radio_configuration">Konfigurimi i radios</string>
+    <string name="radio_setup_name_headline">Emri</string>
     <string name="reboot">Rindiz</string>
     <!-- REMOTE -->
     <string name="remote_admin">Administratë e Largët</string>
@@ -235,11 +242,11 @@
     <string name="resend">Përsëri dërguar</string>
     <string name="reset">Rivendos</string>
     <string name="reset_to_defaults">Rivendos në parazgjedhje</string>
+    <!-- RINGTONE -->
     <!-- ROLE -->
     <!-- ROUTING -->
     <string name="routing_error_got_nak">Marrë një njohje negative</string>
     <string name="routing_error_no_route">Nuk ka rrugë</string>
-    <string name="routing_error_none">Pranuar</string>
     <string name="routing_error_timeout">Koha e skaduar</string>
     <string name="rssi_definition">Indikatori i Fuqisë së Sinjalit të Marrë, një matje e përdorur për të përcaktuar nivelin e energjisë që po merret nga antena. Një vlerë më e lartë RSSI zakonisht tregon një lidhje më të fortë dhe më të qëndrueshme.</string>
     <string name="save">Ruaj</string>
@@ -249,10 +256,12 @@
     <!-- SECURITY -->
     <string name="select_all">Përzgjedh të gjithë</string>
     <string name="send">Dërgo</string>
+    <!-- SERIAL -->
     <!-- SHARE -->
     <string name="share">Ndaj</string>
     <!-- SHOW -->
     <string name="shutdown">Fik</string>
+    <!-- SIGNAL -->
     <string name="signal">Sinjal</string>
     <string name="signal_quality">Cilësia e Sinjalit</string>
     <!-- SITE -->
@@ -284,10 +293,13 @@
     <string name="waypoint_edit">Redakto pikën e rreshtit</string>
     <string name="waypoint_new">Pikë e re rreshti</string>
     <string name="waypoint_received">Pikë rreshti e marrë: %1$s</string>
+    <!-- WEB -->
     <!-- WIDGET -->
+    <string name="widget_packets_bad">I Keq</string>
     <!-- WIFI -->
     <string name="wifi_provision_success_ip_address">Adresa IP</string>
     <!-- WIND -->
     <!-- WRITE -->
+    <!-- XR -->
     <string name="you">Ju</string>
 </resources>

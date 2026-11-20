@@ -35,6 +35,7 @@
     <string name="camera_permission">Permiso da cámara</string>
     <string name="cancel">Cancelar</string>
     <string name="cant_change_no_radio">Non se puido cambiar de canle, porque a radio aínda non está conectada. Por favor inténteo de novo.</string>
+    <!-- CARDINAL -->
     <!-- CHANNEL -->
     <string name="channel_invalid">A ligazón desta canle non é válida e non pode usarse</string>
     <string name="channel_name">Nome de canle</string>
@@ -44,9 +45,11 @@
     <!-- CLEAR -->
     <string name="clear">Limpar</string>
     <string name="close">Pechar</string>
+    <!-- CO2 -->
     <!-- COMPASS -->
     <!-- CONFIG -->
     <string name="connected_sleeping">Conectado á radio, pero está durmindo</string>
+    <!-- CONNECTION -->
     <!-- DEBUG -->
     <string name="debug_filter_add">Engadir filtro</string>
     <string name="debug_filter_clear">Limpar todos os filtros</string>
@@ -150,6 +153,7 @@
     <string name="mute_always">Sempre</string>
     <string name="mute_notifications">Silenciar notificacións</string>
     <string name="name">Nome</string>
+    <!-- NEIGHBOR -->
     <string name="new_channel_rcvd">Novo enlace de canle recibida</string>
     <!-- NO -->
     <!-- NODE -->
@@ -191,7 +195,9 @@
     <string name="quick_chat_edit">Editar conversa rápida</string>
     <string name="quick_chat_instant">Enviar instantaneamente</string>
     <string name="quick_chat_new">Nova conversa rápida</string>
+    <!-- RADIO -->
     <string name="radio_configuration">Configuración de radio</string>
+    <string name="radio_setup_name_headline">Nome</string>
     <string name="reboot">Reiniciar</string>
     <!-- REMOTE -->
     <string name="remote_shell_modifier_locked">Bloqueado</string>
@@ -205,6 +211,7 @@
     <string name="resend">Reenviar</string>
     <string name="reset">Restablecer</string>
     <string name="reset_to_defaults">Restablecer a por defecto</string>
+    <!-- RINGTONE -->
     <!-- ROLE -->
     <string name="role_client">Cliente</string>
     <!-- ROUTING -->
@@ -215,10 +222,12 @@
     <!-- SECURITY -->
     <string name="select_all">Seleccionar todo</string>
     <string name="send">Enviar</string>
+    <!-- SERIAL -->
     <!-- SHARE -->
     <string name="share">Compartir</string>
     <!-- SHOW -->
     <string name="shutdown">Apagar</string>
+    <!-- SIGNAL -->
     <!-- SITE -->
     <string name="swipe_action_delete">Eliminar</string>
     <string name="swipe_action_mute">Silenciar</string>
@@ -246,10 +255,12 @@
     <string name="waypoint_edit">Editar punto de ruta</string>
     <string name="waypoint_new">Novo punto de ruta</string>
     <string name="waypoint_received">Punto de ruta recibido:%1$s</string>
+    <!-- WEB -->
     <!-- WIDGET -->
     <!-- WIFI -->
     <string name="wifi_provision_success_ip_address">Enderezo IP</string>
     <!-- WIND -->
     <!-- WRITE -->
+    <!-- XR -->
     <string name="you">Ti</string>
 </resources>

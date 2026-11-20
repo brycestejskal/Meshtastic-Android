@@ -56,6 +56,7 @@ import org.meshtastic.app.node.component.InlineMap
 import org.meshtastic.app.node.deviceModelArViewer
 import org.meshtastic.app.node.metrics.getTracerouteMapOverlayInsets
 import org.meshtastic.app.ui.MainScreen
+import org.meshtastic.app.xr.AppSpatialShell
 import org.meshtastic.core.barcode.rememberBarcodeScanner
 import org.meshtastic.core.common.state.LaunchOptions
 import org.meshtastic.core.di.CoroutineDispatchers
@@ -172,7 +173,7 @@ class MainActivity : AppCompatActivity() {
                     ReportDrawnWhen { true }
 
                     if (appIntroCompleted || launchOptions.skipOnboarding) {
-                        MainScreen()
+                        AppSpatialShell { MainScreen() }
                     } else {
                         val introViewModel = koinViewModel<IntroViewModel>()
                         AppIntroductionScreen(onDone = { model.onAppIntroCompleted() }, viewModel = introViewModel)
@@ -316,14 +317,10 @@ class MainActivity : AppCompatActivity() {
                         NfcAdapter.EXTRA_NDEF_MESSAGES,
                         NdefMessage::class.java,
                     )
-                if (rawMessages != null) {
-                    for (rawMsg in rawMessages) {
-                        val msg = rawMsg as NdefMessage
-                        for (record in msg.records) {
-                            record.toUri()?.let { handleMeshtasticUri(it) }
-                        }
-                    }
-                }
+                // Android matched the intent filter on the first record only, so a later record on the same tag must
+                // not be routed too.
+                val firstUri = rawMessages?.firstOrNull()?.let { it as NdefMessage }?.records?.firstOrNull()?.toUri()
+                (appLinkData ?: firstUri)?.let { handleMeshtasticUri(it) }
             }
 
             UsbManager.ACTION_USB_DEVICE_ATTACHED -> {

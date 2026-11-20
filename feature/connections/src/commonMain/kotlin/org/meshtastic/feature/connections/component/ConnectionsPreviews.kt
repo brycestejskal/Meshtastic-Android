@@ -34,6 +34,11 @@ import org.meshtastic.core.ble.BleDevice
 import org.meshtastic.core.model.ConnectionState
 import org.meshtastic.core.model.DeviceType
 import org.meshtastic.core.model.Node
+import org.meshtastic.core.model.TransportFailure
+import org.meshtastic.core.model.TransportFailureKind
+import org.meshtastic.core.model.TransportPhase
+import org.meshtastic.core.model.TransportStatus
+import org.meshtastic.core.repository.LiveUpdateMode
 import org.meshtastic.core.ui.theme.AppTheme
 import org.meshtastic.core.ui.viewmodel.ConnectionStatus
 import org.meshtastic.feature.connections.model.DeviceListEntry
@@ -43,6 +48,7 @@ import org.meshtastic.feature.connections.ui.components.DeviceList
 import org.meshtastic.feature.connections.ui.components.DeviceListItem
 import org.meshtastic.feature.connections.ui.components.DeviceSectionHeader
 import org.meshtastic.feature.connections.ui.components.DisconnectButton
+import org.meshtastic.feature.connections.ui.components.LiveUpdateCard
 import org.meshtastic.feature.connections.ui.components.TransportSelector
 import org.meshtastic.proto.User
 
@@ -90,6 +96,26 @@ fun ConnectingDeviceInfoPreview() {
             deviceAddress = "AA:BB:CC:DD:EE:FF",
             connectionStatus = ConnectionStatus.CONNECTING,
             connectionProgress = "Discovering services...",
+            transportStatus = null,
+            onClickDisconnect = {},
+        )
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun ConnectingDeviceInfoPairingNeededPreview() {
+    AppTheme {
+        ConnectingDeviceInfo(
+            deviceName = "Meshtastic_abcd",
+            deviceAddress = "AA:BB:CC:DD:EE:FF",
+            connectionStatus = ConnectionStatus.NOT_CONNECTED,
+            connectionProgress = null,
+            transportStatus =
+            TransportStatus(
+                phase = TransportPhase.Subscribing,
+                lastFailure = TransportFailure(TransportFailureKind.PairingRequired),
+            ),
             onClickDisconnect = {},
         )
     }
@@ -290,6 +316,49 @@ fun DemoModeSectionPreview() {
             onAddManualAddress = { _, _ -> },
             onRemoveRecentAddress = {},
             virtualDevices = listOf(DeviceListEntry.Mock("Demo Mode"), DeviceListEntry.Replay("Demo Mode (Replay)")),
+        )
+    }
+}
+
+@PreviewLightDark
+@Composable
+@Suppress("PreviewPublic") // public so :screenshot-tests can reference it
+fun LiveUpdateCardOffPreview() {
+    AppTheme {
+        LiveUpdateCard(
+            mode = LiveUpdateMode.Off,
+            trackedNode = null,
+            turnedOffInSettings = false,
+            onClick = {},
+            onStop = {},
+            onOpenSettings = {},
+        )
+    }
+}
+
+@PreviewLightDark
+@Composable
+@Suppress("PreviewPublic") // public so :screenshot-tests can reference it
+fun LiveUpdateCardTrackingPreview() {
+    val node =
+        Node(
+            num = 13444,
+            user =
+            User.Builder()
+                .also { wb ->
+                    wb.short_name = "AB12"
+                    wb.long_name = "Rooftop Solar Repeater"
+                }
+                .build(),
+        )
+    AppTheme {
+        LiveUpdateCard(
+            mode = LiveUpdateMode.TrackNode(node.num),
+            trackedNode = node,
+            turnedOffInSettings = false,
+            onClick = {},
+            onStop = {},
+            onOpenSettings = {},
         )
     }
 }

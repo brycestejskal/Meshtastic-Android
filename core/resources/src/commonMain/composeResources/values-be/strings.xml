@@ -40,6 +40,7 @@
     <string name="bluetooth_permission">Bluetooth</string>
     <string name="bottom_nav_settings">Налады</string>
     <string name="cancel">Скасаваць</string>
+    <!-- CARDINAL -->
     <!-- CHANNEL -->
     <string name="channel_1">Канал 1</string>
     <string name="channel_2">Канал 2</string>
@@ -56,6 +57,7 @@
     <!-- CLEAR -->
     <string name="clear">Скінуць</string>
     <string name="close">Закрыть</string>
+    <!-- CO2 -->
     <!-- COMPASS -->
     <!-- CONFIG -->
     <string name="config_device_tripleClickAsAdHocPing_summary">Адсылае месцазнаходжанне на асноўным канале калі націснуць кнопку тройчы.</string>
@@ -64,6 +66,7 @@
     <string name="connected">Злучаны</string>
     <string name="connected_sleeping">Злучаныя з радыё, але яно спіць</string>
     <string name="connecting">Злучаемся</string>
+    <!-- CONNECTION -->
     <string name="copy">Копировать</string>
     <string name="current">3</string>
     <string name="currently">Зараз:</string>
@@ -115,7 +118,6 @@
     <string name="firmware_update_keep_device_close">.</string>
     <string name="firmware_update_retry">Паспрабаваць яшчэ раз</string>
     <!-- FORMAT -->
-    <string name="free_memory">Вольная памяць</string>
     <!-- GEOFENCE -->
     <string name="get_started">Пачаць</string>
     <string name="gpio">GPIO</string>
@@ -178,6 +180,7 @@
     <string name="mute_8_hours">8 гадзін</string>
     <string name="mute_always">Назаўсёды</string>
     <string name="name">Назва</string>
+    <!-- NEIGHBOR -->
     <string name="network">Сетка</string>
     <string name="new_node_seen">Убачылі новы вузел: %1$s</string>
     <string name="next">Далей</string>
@@ -230,6 +233,8 @@
     <string name="qr_code">QR-код</string>
     <!-- QUICK -->
     <string name="quick_chat_instant">Імгненна даслаць</string>
+    <!-- RADIO -->
+    <string name="radio_setup_name_headline">Назва</string>
     <string name="reboot">Перазагрузіць</string>
     <!-- REMOTE -->
     <string name="remote_shell_send">Адправіць</string>
@@ -242,6 +247,7 @@
     <!-- REQUEST -->
     <string name="reset">Скінуць</string>
     <string name="retry">Паспрабаваць яшчэ раз</string>
+    <!-- RINGTONE -->
     <!-- ROLE -->
     <string name="role_client">CLIENT</string>
     <string name="role_client_hidden">CLIENT HIDDEN</string>
@@ -258,7 +264,6 @@
     <!-- ROUTING -->
     <string name="routing_error_got_nak">Атрымана адмоўнае пацвярджэнне</string>
     <string name="routing_error_no_route">Няма маршруту</string>
-    <string name="routing_error_none">Пацверджана</string>
     <string name="routing_error_timeout">Скончыўся час чакання</string>
     <string name="rssi">адносная магутнасць</string>
     <string name="save">Запісаць</string>
@@ -269,6 +274,7 @@
     <string name="security">Бяспека</string>
     <string name="select_all">Вылучыць усе</string>
     <string name="send">Адправіць</string>
+    <!-- SERIAL -->
     <string name="serial">Паслядоўны</string>
     <string name="set_your_region">Выберыце ваш рэгіён</string>
     <string name="settings">налады</string>
@@ -276,6 +282,7 @@
     <string name="share">Падзяліцца</string>
     <!-- SHOW -->
     <string name="show_password">Паказаць пароль</string>
+    <!-- SIGNAL -->
     <string name="signal_quality">Якасць сігнала</string>
     <!-- SITE -->
     <string name="site_planner_section_display">Экран</string>
@@ -305,11 +312,14 @@
     <!-- USER -->
     <string name="user">Карыстальнік</string>
     <string name="via_mqtt">праз MQTT</string>
+    <!-- WEB -->
     <!-- WIDGET -->
+    <string name="widget_telemetry_title">Тэлеметрыя</string>
     <!-- WIFI -->
     <string name="wifi_provision_success_ip_address">IP-адрас</string>
     <string name="wifi_provision_success_username">Імя карыстальніка</string>
     <!-- WIND -->
     <!-- WRITE -->
+    <!-- XR -->
     <string name="you">Вы</string>
 </resources>

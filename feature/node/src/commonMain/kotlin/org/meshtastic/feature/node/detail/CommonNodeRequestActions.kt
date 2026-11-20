@@ -41,6 +41,7 @@ import org.meshtastic.core.resources.request_local_stats
 import org.meshtastic.core.resources.request_pax_metrics
 import org.meshtastic.core.resources.request_power_metrics
 import org.meshtastic.core.resources.requesting_from
+import org.meshtastic.core.resources.requesting_neighbor_info_from
 import org.meshtastic.core.resources.traceroute
 import org.meshtastic.core.resources.user_info
 import org.meshtastic.core.ui.util.SnackbarManager
@@ -61,6 +62,9 @@ constructor(
 
     private val _lastRequestNeighborTimes = MutableStateFlow<Map<Int, Long>>(emptyMap())
     override val lastRequestNeighborTimes: StateFlow<Map<Int, Long>> = _lastRequestNeighborTimes.asStateFlow()
+
+    private val _tracerouteNaks = MutableStateFlow<Map<Int, Int>>(emptyMap())
+    override val tracerouteNaks: StateFlow<Map<Int, Int>> = _tracerouteNaks.asStateFlow()
 
     private suspend fun showFeedback(text: UiText) {
         snackbarManager.showSnackbar(message = resolveUiText(text))
@@ -92,7 +96,7 @@ constructor(
         Logger.i { "Requesting NeighborInfo for '$destNum'" }
         nakWatcher.watch(Res.string.neighbor_info, longName) { id -> radioController.requestNeighborInfo(id, destNum) }
         _lastRequestNeighborTimes.update { it + (destNum to nowMillis) }
-        showFeedback(UiText.Resource(Res.string.requesting_from, Res.string.neighbor_info, longName))
+        showFeedback(UiText.Resource(Res.string.requesting_neighbor_info_from, longName))
     }
 
     override suspend fun requestPosition(destNum: Int, longName: String, position: Position) = runRequest {
@@ -135,7 +139,13 @@ constructor(
         Logger.i { "Requesting traceroute for '$destNum'" }
         var sent = false
         try {
-            nakWatcher.watch(Res.string.traceroute, longName) { id -> radioController.requestTraceroute(id, destNum) }
+            nakWatcher.watch(
+                Res.string.traceroute,
+                longName,
+                onNak = { id, error -> _tracerouteNaks.update { it + (id to error) } },
+            ) { id ->
+                radioController.requestTraceroute(id, destNum)
+            }
             sent = true
         } finally {
             // A failed or canceled send must not start the cooldown; only undo our own claim.

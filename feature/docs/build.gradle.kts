@@ -14,9 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+import org.meshtastic.buildlogic.UNTRANSLATED_DOC_THRESHOLD
+import org.meshtastic.buildlogic.untranslatedShare
 
 plugins {
     alias(libs.plugins.meshtastic.kmp.feature)
+    alias(libs.plugins.meshtastic.kmp.web)
     alias(libs.plugins.meshtastic.kotlinx.serialization)
 }
 
@@ -62,6 +65,9 @@ val syncDocsToComposeResources =
 
         // isolated.rootProject: Isolated Projects forbids reaching through rootProject.layout.
         val docsDir = isolated.rootProject.projectDirectory.dir("docs")
+        // Gradle does not fingerprint eachFile actions; without this input a threshold change, or a checkout without
+        // the filter, reuses the previous run's output.
+        inputs.property("untranslatedDocThreshold", UNTRANSLATED_DOC_THRESHOLD)
 
         from(docsDir.dir("en")) {
             include("user/**/*.md")
@@ -76,7 +82,8 @@ val syncDocsToComposeResources =
             into("files/docs/assets/screenshots")
         }
 
-        // Crowdin names these like the values-* dirs (fr, pt-rBR, b+sr+Latn).
+        // Crowdin names these like the values-* dirs (fr, pt-rBR, b+sr+Latn). Near-English pages stay out of the app;
+        // DocBundleLoader falls back to the English page for them.
         from(docsDir) {
             include("*/user/**/*.md")
             exclude("en/**")
@@ -84,7 +91,16 @@ val syncDocsToComposeResources =
             exclude("assets/**")
             exclude("screenshots/**")
             eachFile {
-                path = "files/${relativePath.segments[0]}/docs/${relativePath.segments.drop(1).joinToString("/")}"
+                val sourcePath = relativePath.segments.drop(1).joinToString("/")
+                val english = docsDir.file("en/$sourcePath").asFile
+                if (
+                    english.isFile &&
+                    untranslatedShare(file.readText(), english.readText()) >= UNTRANSLATED_DOC_THRESHOLD
+                ) {
+                    exclude()
+                } else {
+                    path = "files/${relativePath.segments[0]}/docs/$sourcePath"
+                }
             }
         }
 
@@ -94,3 +110,14 @@ val syncDocsToComposeResources =
 
 // Mapping the task provider carries the task dependency into every compose-resources task that reads the directory.
 compose.resources { customDirectory("commonMain", syncDocsToComposeResources.map { docsComposeResources.get() }) }
+
+// Karma serves no compose resources: the bundled pages and core:resources' strings 404 there, so these read nothing.
+// The served app loads both, which the browser check covers.
+meshtasticWeb.browserTestExclusions.addAll(
+    "*DocBundleLoaderTest.*",
+    "*DocImageWiringTest.*",
+    "*KeywordSearchEngineTest.*",
+    "*DocsBrowserScreenTest.*",
+    "*DocsPageRouteScreenTest.*",
+    "*DocsSearchBarTest.*",
+)

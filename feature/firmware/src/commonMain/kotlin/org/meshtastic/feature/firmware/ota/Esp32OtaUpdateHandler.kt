@@ -38,7 +38,6 @@ import org.meshtastic.core.repository.RadioController
 import org.meshtastic.core.resources.Res
 import org.meshtastic.core.resources.UiText
 import org.meshtastic.core.resources.firmware_update_connecting_attempt
-import org.meshtastic.core.resources.firmware_update_downloading_percent
 import org.meshtastic.core.resources.firmware_update_erasing
 import org.meshtastic.core.resources.firmware_update_extracting
 import org.meshtastic.core.resources.firmware_update_hash_rejected
@@ -49,14 +48,12 @@ import org.meshtastic.core.resources.firmware_update_searching_device
 import org.meshtastic.core.resources.firmware_update_starting_ota
 import org.meshtastic.core.resources.firmware_update_uploading
 import org.meshtastic.core.resources.firmware_update_waiting_reboot
-import org.meshtastic.core.resources.getStringSuspend
 import org.meshtastic.feature.firmware.FirmwareArtifact
 import org.meshtastic.feature.firmware.FirmwareFileHandler
 import org.meshtastic.feature.firmware.FirmwareRetriever
 import org.meshtastic.feature.firmware.FirmwareUpdateHandler
 import org.meshtastic.feature.firmware.FirmwareUpdateState
 import org.meshtastic.feature.firmware.ProgressState
-import org.meshtastic.feature.firmware.stripFormatArgs
 
 private const val RETRY_DELAY = 2000L
 private const val REBOOT_MODE_BLE = 1
@@ -127,9 +124,9 @@ class DefaultEsp32OtaUpdateEnvironment : Esp32OtaUpdateEnvironment {
         dispatcher: CoroutineDispatcher,
     ): UnifiedOtaProtocol = BleOtaTransport(bleScanner, bleConnectionFactory, address, dispatcher)
 
-    override fun createWifiTransport(deviceIp: String): UnifiedOtaProtocol = WifiOtaTransport(deviceIp)
+    override fun createWifiTransport(deviceIp: String): UnifiedOtaProtocol = createWifiOtaTransport(deviceIp)
 
-    override suspend fun discoverWifiOtaDevice(): String? = WifiOtaDiscovery.discoverOtaDevice()
+    override suspend fun discoverWifiOtaDevice(): String? = discoverWifiOtaDeviceOnLan()
 }
 
 internal fun isBleMacAddress(target: String): Boolean = MAC_ADDRESS_REGEX.matches(target)
@@ -350,25 +347,9 @@ class Esp32OtaUpdateHandler(
         )
         firmwareFileHandler.importFromUri(firmwareUri)
     } else {
-        val downloadingMsg = getStringSuspend(Res.string.firmware_update_downloading_percent, 0).stripFormatArgs()
-
-        updateState(
-            FirmwareUpdateState.Downloading(
-                ProgressState(message = UiText.DynamicString(downloadingMsg), progress = 0f),
-            ),
-        )
-
         val firmwareFile =
-            firmwareRetriever.retrieveEsp32Firmware(release, hardware) { progress ->
-                updateState(
-                    FirmwareUpdateState.Downloading(
-                        ProgressState(
-                            message = UiText.DynamicString(downloadingMsg),
-                            progress = progress,
-                            details = formatTransferPercent(progress),
-                        ),
-                    ),
-                )
+            downloadWithProgress(updateState) { onProgress ->
+                firmwareRetriever.retrieveEsp32Firmware(release, hardware, onProgress)
             }
 
         if (firmwareFile == null) {
@@ -553,7 +534,7 @@ class Esp32OtaUpdateHandler(
             if (rebootMode == REBOOT_MODE_BLE) {
                 BleOtaTransport.RECOMMENDED_CHUNK_SIZE
             } else {
-                WifiOtaTransport.RECOMMENDED_CHUNK_SIZE
+                WIFI_OTA_CHUNK_SIZE
             }
 
         val throughputTracker = ThroughputTracker()

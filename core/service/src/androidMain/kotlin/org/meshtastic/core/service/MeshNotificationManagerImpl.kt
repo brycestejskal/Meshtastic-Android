@@ -72,7 +72,7 @@ import org.meshtastic.core.model.NodeAddress
 import org.meshtastic.core.model.effectiveLongName
 import org.meshtastic.core.model.noiseFloorOrNull
 import org.meshtastic.core.model.util.toDistanceString
-import org.meshtastic.core.navigation.DEEP_LINK_BASE_URI
+import org.meshtastic.core.navigation.NotificationDeepLinks
 import org.meshtastic.core.repository.FirmwareUpdateProgress
 import org.meshtastic.core.repository.FirmwareUpdateStatusRepository
 import org.meshtastic.core.repository.LiveUpdateMode
@@ -104,6 +104,7 @@ import org.meshtastic.core.resources.live_update_heard_now
 import org.meshtastic.core.resources.live_update_hops
 import org.meshtastic.core.resources.live_update_nodes_online
 import org.meshtastic.core.resources.live_update_signal
+import org.meshtastic.core.resources.live_update_stop_action
 import org.meshtastic.core.resources.live_update_unread
 import org.meshtastic.core.resources.local_stats_bad
 import org.meshtastic.core.resources.local_stats_battery
@@ -206,6 +207,7 @@ class MeshNotificationManagerImpl(
         private const val MAIN_ACTIVITY_CLASS = "org.meshtastic.app.MainActivity"
         private const val THUMBS_UP = "👍"
         private const val CONNECTIONS_REQUEST_CODE = 0x4C55
+        private const val STOP_LIVE_UPDATE_REQUEST_CODE = 0x4C56
         private const val LIVE_UPDATE_SEPARATOR = " · "
         private val LIVE_UPDATE_MIN_INTERVAL = 2.seconds
         private val TRACK_NODE_TICK = 1.minutes
@@ -728,7 +730,10 @@ class MeshNotificationManagerImpl(
         val title = getStringSuspend(Res.string.mesh_beacon_notification_title)
         val message = offer.message.ifBlank { getStringSuspend(Res.string.mesh_beacon_notification_body) }
         val notification =
-            commonBuilder(NotificationChannelSpec.MeshBeacon, createDeepLinkIntent("discovery", offer.fromNodeNum))
+            commonBuilder(
+                NotificationChannelSpec.MeshBeacon,
+                createDeepLinkIntent(NotificationDeepLinks.MESH_BEACON, offer.fromNodeNum),
+            )
                 .setCategory(Notification.CATEGORY_RECOMMENDATION)
                 .setAutoCancel(true)
                 .setContentTitle(title)
@@ -815,7 +820,10 @@ class MeshNotificationManagerImpl(
             )
         val id = notice.notificationKey.hashCode()
         val notification =
-            commonBuilder(NotificationChannelSpec.DeviceStatus, createDeepLinkIntent("firmware/update", id))
+            commonBuilder(
+                NotificationChannelSpec.DeviceStatus,
+                createDeepLinkIntent(NotificationDeepLinks.FIRMWARE_UPDATE, id),
+            )
                 .setCategory(Notification.CATEGORY_RECOMMENDATION)
                 .setAutoCancel(true)
                 .setContentTitle(getStringSuspend(Res.string.firmware_update_available))
@@ -832,7 +840,7 @@ class MeshNotificationManagerImpl(
         val notification =
             commonBuilder(
                 NotificationChannelSpec.DeviceStatus,
-                createDeepLinkIntent("connections", RECONNECT_BLOCKED_ID),
+                createDeepLinkIntent(NotificationDeepLinks.CONNECTIONS, RECONNECT_BLOCKED_ID),
             )
                 .setCategory(Notification.CATEGORY_ERROR)
                 .setAutoCancel(true)
@@ -954,7 +962,7 @@ class MeshNotificationManagerImpl(
             subText = null,
             lines = lines,
             chip = chip,
-            contentIntent = createDeepLinkIntent("connections", CONNECTIONS_REQUEST_CODE),
+            contentIntent = createDeepLinkIntent(NotificationDeepLinks.CONNECTIONS, CONNECTIONS_REQUEST_CODE),
         )
     }
 
@@ -1011,7 +1019,7 @@ class MeshNotificationManagerImpl(
      * A user-started Live Update on the service notification. Promotion needs an ongoing notification with a title, no
      * custom views and no colorization, on a channel above MIN; BigTextStyle is one of the allowed styles.
      */
-    private fun createLiveUpdateNotification(
+    private suspend fun createLiveUpdateNotification(
         title: String,
         subText: String?,
         lines: List<String>,
@@ -1029,9 +1037,26 @@ class MeshNotificationManagerImpl(
                 .setStyle(NotificationCompat.BigTextStyle().bigText(lines.joinToString("\n")))
                 .setShowWhen(false)
                 .setRequestPromotedOngoing(true)
+                .addAction(createStopLiveUpdateAction())
         subText?.let { builder.setSubText(it) }
         chip?.let { builder.setShortCriticalText(it) }
         return builder.build()
+    }
+
+    /** Named in full: the system's own Stop on this foreground-service notification disconnects the radio. */
+    private suspend fun createStopLiveUpdateAction(): NotificationCompat.Action {
+        val label = getStringSuspend(Res.string.live_update_stop_action)
+        val intent = Intent(LiveUpdateStopReceiver.ACTION_STOP, null, context, LiveUpdateStopReceiver::class.java)
+        val pendingIntent =
+            PendingIntent.getBroadcast(
+                context,
+                STOP_LIVE_UPDATE_REQUEST_CODE,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+            )
+        return NotificationCompat.Action.Builder(android.R.drawable.ic_menu_close_clear_cancel, label, pendingIntent)
+            .setShowsUserInterface(false)
+            .build()
     }
 
     private suspend fun batteryText(level: Int): String = if (level > MAX_BATTERY_LEVEL) {
@@ -1211,7 +1236,7 @@ class MeshNotificationManagerImpl(
         val builder =
             commonBuilder(
                 NotificationChannelSpec.Waypoints,
-                createDeepLinkIntent("map?waypointId=$waypointId", waypointId),
+                createDeepLinkIntent(NotificationDeepLinks.waypoint(waypointId), waypointId),
             )
                 .setCategory(Notification.CATEGORY_STATUS)
                 .setAutoCancel(true)
@@ -1288,7 +1313,12 @@ class MeshNotificationManagerImpl(
      */
     private fun createDeepLinkIntent(path: String, requestCode: Int): PendingIntent {
         val deepLinkIntent =
-            Intent(Intent.ACTION_VIEW, "$DEEP_LINK_BASE_URI/$path".toUri(), context, Class.forName(MAIN_ACTIVITY_CLASS))
+            Intent(
+                Intent.ACTION_VIEW,
+                NotificationDeepLinks.uri(path).toUri(),
+                context,
+                Class.forName(MAIN_ACTIVITY_CLASS),
+            )
                 .apply { flags = Intent.FLAG_ACTIVITY_SINGLE_TOP }
         return TaskStackBuilder.create(context).run {
             addNextIntentWithParentStack(deepLinkIntent)
@@ -1299,9 +1329,10 @@ class MeshNotificationManagerImpl(
     }
 
     private fun createOpenMessageIntent(contactKey: String) =
-        createDeepLinkIntent("messages/$contactKey", contactKey.hashCode())
+        createDeepLinkIntent(NotificationDeepLinks.conversation(contactKey), contactKey.hashCode())
 
-    private fun createOpenNodeDetailIntent(nodeNum: Int) = createDeepLinkIntent("nodes/$nodeNum", nodeNum)
+    private fun createOpenNodeDetailIntent(nodeNum: Int) =
+        createDeepLinkIntent(NotificationDeepLinks.nodeDetail(nodeNum), nodeNum)
 
     /**
      * Bubble target: [org.meshtastic.app.BubbleActivity], not the launcher activity. A bubble's activity must be
@@ -1312,7 +1343,7 @@ class MeshNotificationManagerImpl(
      * that conversation rather than as the app.
      */
     private fun createBubbleMetadata(contactKey: String, icon: IconCompat): NotificationCompat.BubbleMetadata {
-        val deepLinkUri = "$DEEP_LINK_BASE_URI/messages/$contactKey".toUri()
+        val deepLinkUri = NotificationDeepLinks.uri(NotificationDeepLinks.conversation(contactKey)).toUri()
         // Two halves of one rule. The intent carries no task flags, because the platform is the thing that applies
         // FLAG_ACTIVITY_NEW_DOCUMENT and FLAG_ACTIVITY_MULTIPLE_TASK for a bubble — setting them here instead
         // launches outside the bubble and collapses it. And the PendingIntent must be MUTABLE precisely so the
@@ -1340,7 +1371,7 @@ class MeshNotificationManagerImpl(
      */
     private fun conversationActionIntent(action: String, contactKey: String, packetId: Int? = null): Intent {
         val data =
-            "$DEEP_LINK_BASE_URI/messages/$contactKey".toUri().buildUpon().apply {
+            NotificationDeepLinks.uri(NotificationDeepLinks.conversation(contactKey)).toUri().buildUpon().apply {
                 packetId?.let { appendQueryParameter("packet", it.toString()) }
             }
         return Intent(action, data.build(), context, ConversationActionService::class.java)

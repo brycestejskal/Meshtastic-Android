@@ -24,10 +24,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withTimeoutOrNull
 import org.meshtastic.core.ble.BleDevice
+import org.meshtastic.core.ble.BleDeviceNotFoundException
 import org.meshtastic.core.ble.BleScanner
 import org.meshtastic.core.ble.BluetoothRepository
 import org.meshtastic.core.ble.MeshtasticBleConstants.SERVICE_UUID
-import org.meshtastic.core.model.RadioNotConnectedException
+import org.meshtastic.core.ble.bleAddressesMatch
 import org.meshtastic.core.model.util.anonymize
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
@@ -64,7 +65,7 @@ internal class BleDeviceLocator(
     @Suppress("ReturnCount")
     internal suspend fun findDevice(): BleDevice {
         val bondedDevice =
-            bluetoothRepository.state.value.bondedDevices.firstOrNull { it.address.equals(address, ignoreCase = true) }
+            bluetoothRepository.state.value.bondedDevices.firstOrNull { bleAddressesMatch(it.address, address) }
 
         if (bondedDevice != null) {
             // Use one bounded, address-filtered scan. Splitting this into a short scan plus an escalated scan consumed
@@ -97,7 +98,7 @@ internal class BleDeviceLocator(
                 delay(SCAN_RETRY_DELAY)
             }
         }
-        throw RadioNotConnectedException("Device not found at address ${address.anonymize()}")
+        throw BleDeviceNotFoundException("Device not found at address ${address.anonymize()}")
     }
 
     /**
@@ -119,7 +120,7 @@ internal class BleDeviceLocator(
             // Pass both service UUID and address; the scanner picks whichever filter the platform can honour
             // (address natively on Android, service UUID elsewhere) and narrows to the address itself.
             scanner.scan(timeout = timeout, serviceUuid = SERVICE_UUID, address = address).first {
-                it.address.equals(address, ignoreCase = true)
+                bleAddressesMatch(it.address, address)
             }
         }
     } catch (e: CancellationException) {

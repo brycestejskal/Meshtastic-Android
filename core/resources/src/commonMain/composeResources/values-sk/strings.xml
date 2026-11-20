@@ -58,6 +58,7 @@
     <string name="canned_message">Konzervovaná správa</string>
     <string name="cant_change_no_radio">Nie je možné zmeniť kanál, pretože vysielač ešte nie je pripojený. Skúste to neskôr.</string>
     <string name="cant_shutdown">Toto zariadenie nepodporuje vypínanie</string>
+    <!-- CARDINAL -->
     <string name="ch_util_definition">Využitie pre aktuálny kanál, vrátane dobre vytvoreného TX, RX a poškodeného RX (známy ako šum).</string>
     <!-- CHANNEL -->
     <string name="channel_1">Kanál 1</string>
@@ -77,6 +78,8 @@
     <!-- CLEAR -->
     <string name="clear">Zmazať</string>
     <string name="close">Zavrieť</string>
+    <!-- CO2 -->
+    <string name="co2_level_good">Dobrý</string>
     <!-- COMPASS -->
     <!-- CONFIG -->
     <string name="config_device_ledHeartbeatEnabled_summary">Ovláda blikajúcu LED na zariadení. Pre väčšinu zariadení toto ovláda jednu zo štyroch LED, neovláda LED pre GPS a nabíjanie.</string>
@@ -84,6 +87,7 @@
     <string name="connected">Pripojený</string>
     <string name="connected_sleeping">Pripojené k uspanému vysielaču</string>
     <string name="connecting">Prebieha pripájanie</string>
+    <!-- CONNECTION -->
     <string name="copy">Kopírovať</string>
     <string name="critical_alert">Kritická výstraha!</string>
     <string name="current">Prúd</string>
@@ -273,6 +277,7 @@
     <string name="mute_notifications">Stlmiť notifikácie</string>
     <string name="name">Názov</string>
     <string name="navigate_back">Navigovať späť</string>
+    <!-- NEIGHBOR -->
     <string name="neighbor_info">Informácia o susedoch</string>
     <string name="network">Sieť</string>
     <string name="new_channel_rcvd">Prijatá nová URL kanálu</string>
@@ -348,7 +353,9 @@
     <string name="quick_chat_instant">Okamžite pošli</string>
     <string name="quick_chat_new">Nový rýchly čet</string>
     <string name="radiation">Radiácia</string>
+    <!-- RADIO -->
     <string name="radio_configuration">Konfigurácia vysielača</string>
+    <string name="radio_setup_name_headline">Názov</string>
     <string name="range_test">Test dosahu</string>
     <string name="reboot">Reštartovať</string>
     <!-- REMOTE -->
@@ -366,6 +373,7 @@
     <string name="resend">Znovu poslať</string>
     <string name="reset">Obnoviť</string>
     <string name="reset_to_defaults">Obnoviť na predvolené nastavenia</string>
+    <!-- RINGTONE -->
     <string name="ringtone">Zvonenie</string>
     <!-- ROLE -->
     <string name="role_client">Klient</string>
@@ -383,7 +391,6 @@
     <!-- ROUTING -->
     <string name="routing_error_got_nak">Prijaté negatívne potvrdenie</string>
     <string name="routing_error_no_route">Žiadna trasa</string>
-    <string name="routing_error_none">Potvrdené</string>
     <string name="routing_error_timeout">Časový limit</string>
     <string name="rssi">RSSI</string>
     <string name="rssi_definition">Indikátor sily prijímaného signálu (RSSI), meranie používané na určenie úrovne výkonu prijatého skrz anténu. Vyššia hodnota RSSI vo všeobecnosti znamená silnejšie a stabilnejšie pripojenie.</string>
@@ -396,6 +403,7 @@
     <string name="security">Zabezpečenie</string>
     <string name="select_all">Vybrať všetko</string>
     <string name="send">Odoslať</string>
+    <!-- SERIAL -->
     <string name="serial">Sériový</string>
     <string name="settings">nastavenia</string>
     <!-- SHARE -->
@@ -405,6 +413,7 @@
     <!-- SHOW -->
     <string name="show_password">Zobraziť heslo</string>
     <string name="shutdown">Vypnúť</string>
+    <!-- SIGNAL -->
     <string name="signal">Signál</string>
     <string name="signal_quality">Kvalita signálu</string>
     <!-- SITE -->
@@ -462,13 +471,17 @@
     <string name="waypoint_edit">Editovať cieľový bod</string>
     <string name="waypoint_new">Nový cieľový bod</string>
     <string name="waypoint_received">Prijatý cieľový bod: %1$s</string>
+    <!-- WEB -->
     <string name="weight">Hmotnosť</string>
     <!-- WIDGET -->
+    <string name="widget_packets_bad">Zlý</string>
+    <string name="widget_telemetry_title">Telemetria</string>
     <!-- WIFI -->
     <string name="wifi_provision_success_ip_address">IP adresa</string>
     <string name="wifi_provision_success_username">Používateľské meno</string>
     <!-- WIND -->
     <string name="wind">Vietor</string>
     <!-- WRITE -->
+    <!-- XR -->
     <string name="you">Vy</string>
 </resources>

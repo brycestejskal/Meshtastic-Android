@@ -1,8 +1,8 @@
 ---
 title: Connections
 nav_order: 2
-last_updated: 2026-10-22
-description: Connect your phone or desktop to a Meshtastic node over Bluetooth, USB, or TCP/IP.
+last_updated: 2026-11-18
+description: Connect your phone, desktop or browser to a Meshtastic node over Bluetooth, USB, or TCP/IP.
 aliases:
   - bluetooth
   - usb
@@ -27,6 +27,12 @@ Bluetooth Low Energy is the default and most common connection method on Android
 5. Android asks you to pair. If your node has a screen, it shows a six-digit PIN. Type that into the Android dialog. If your node has no screen, the PIN is `123456`.
 
 ![Scanning for Bluetooth devices, with a discovered node in the list](../../assets/screenshots/connections_bluetooth_scan.png)
+
+### Connecting from a QR code or NFC tag
+
+Some nodes come with a connect code, printed on a label or shown on the node's screen. Scan it with your phone's camera, or open the floating button on the **Connect** tab, tap **Scan Connect Code QR Code** and point it at the code. The same button takes the link pasted as a URL. A code can also come from an NFC tag: hold the phone to a tag holding the `meshtastic://meshtastic/connections` form of the link, or pick **Scan Connect Code NFC** from the button first. The app asks whether to connect and shows the node's address, plus its pairing PIN when the code has one. Tap **Connect** and the app copies the PIN and pairs. Up to Android 16 the app enters the PIN for you, and if Android refuses that, the pairing dialog asks instead; on Android 17 the pairing dialog asks, and you paste it.
+
+A scanned code that isn't a Meshtastic connect code, or one with an address the app can't use, shows "That code isn't a Meshtastic connect code." and connects to nothing. A network address needs a host, and a USB address needs a port name. A PIN in the code that isn't six digits from 100000 to 999999 (so no leading zero) is ignored, and pairing asks for it as usual.
 
 To change the pairing method, or to turn Bluetooth on for a node that ships with it off, open **Settings → Device configuration → Bluetooth**. See [Settings — Radio & User](settings-radio-user). For more information, see [Bluetooth configuration](https://meshtastic.org/docs/configuration/radio/bluetooth) on meshtastic.org.
 
@@ -66,6 +72,20 @@ When connecting, a status indicator shows the current connection state — tap *
 
 ![Connecting status](../../assets/screenshots/connections_connecting.png)
 
+Over Bluetooth, the status line names the step in progress: looking for the radio, pairing, connecting to the radio, checking the radio, setting up the connection, then loading its config and node list. A step that finishes in under half a second is skipped rather than flashed. When an attempt fails, a line under it says why, and the status line counts down to the next attempt:
+
+| Порука                               | What to do                                                                                                                                                             |
+| ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Radio not found                      | Turn the node on and move closer.                                                                                                                      |
+| Could not connect                    | Disconnect the node from any other app or device. Otherwise move closer, or forget the node in your Bluetooth settings and pair again. |
+| The radio needs pairing              | Pair when the system asks, with the PIN on the node's screen, or its fixed PIN if one is set.                                                          |
+| The radio turned the connection down | Usually a missing pairing: try again and enter the PIN when asked.                                                                     |
+| Pairing failed                       | Check the PIN and pair again.                                                                                                                          |
+| The connection dropped               | Move closer. The app keeps retrying.                                                                                                   |
+| Блутут је искључен                   | Turn it on. On Android 11 and older the message also names location services, which scanning needs there.                              |
+
+The platform's own error text goes to the app log, not the card.
+
 Once connected, the connection card shows the node's name and firmware version, its signal strength over Bluetooth, and its LoRa modem preset and region, for example "Long Range - Fast · United States". A node on custom modem settings shows **Custom** in place of the preset. Tap the preset row to open the LoRa screen.
 
 With no node chosen yet, the connection card reads **No device selected**. A pane with nothing to list says so under its header, with a hint:
@@ -74,7 +94,7 @@ With no node chosen yet, the connection card reads **No device selected**. A pan
 | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Блутут | **No Bluetooth devices seen**, and "Ensure you're within range of the device." Start a scan from the header.                                                                                                                                 |
 | Мрежа  | **No network devices seen**, and "Ensure you're connected to the same network as the device." Shown only while nothing has been discovered and **Recent Network Devices** is empty. **Add device manually…** stays below it. |
-| USB    | **No USB devices detected**, and "Connect a device with a USB data cable to use serial."                                                                                                                                                                     |
+| USB    | **No USB devices detected**, and "Connect a device with a USB data cable to use serial." In a browser, **No serial devices added**, pointing at **Add serial device…**.                                                                      |
 
 ### Troubleshooting Bluetooth
 
@@ -131,26 +151,39 @@ Network discovery uses mDNS, which only works when both your phone and the node 
 2. Tap **Scan for Networks**, then pick a network from **Available Networks**, or turn on **Hidden network** and type the name into **Network Name (SSID)**.
 3. Enter the **Password** and tap **Apply**.
 
+When the device joins the network, the screen shows **Device Connected** with its **IP Address** (**IP unavailable** when it didn't report one), and a **Complete Device Setup** card with the default sign-in and an **Open SSH Client** button. Sign in over SSH to change the default username and password.
+
 If the scan reports **No networks found** or fails outright, move the phone closer to the device and scan again. If **Failed to apply Wi-Fi configuration** comes back, check the password and try again.
 
 ## After Your First Connection
 
 Being connected is not the same as being able to transmit.
 
-A node leaves the factory with no LoRa region set, and it does not transmit until you set one. When you connect such a node, the **Connect** tab shows a **Set your region** card; tap it to open the LoRa screen and choose the region you are in.
+A node leaves the factory with no LoRa region set, and it does not transmit until you set one. The first time you connect such a node, the app opens a guided setup, and the **Connect** tab shows a **Set your region** card that reopens it. The setup opens on an introduction (**Next**, or **Not now** to leave) and takes you through four choices before a summary:
 
-Once the region is set, the tab warns you if the node is receive-only: a **Transmit is disabled** card, reading "This device can receive but will not send anything over LoRa." Tap it to open the same screen and turn **Transmit Enabled** back on. Only one of the two cards appears at a time. An unset region already stops the node transmitting, so the app names that first and holds the transmit card back until you have set a region.
+1. **Region.** Search the list for the region you are in. The app suggests the one that matches your phone's region setting; confirm it or pick another. **Next** stays unavailable until a region is chosen.
+2. **Preset.** The modem preset sets the range and speed of the mesh, and everyone on a mesh uses the same one. **Save** writes the region and the preset together. On firmware older than 2.8 the node restarts after saving, and the setup continues once it reconnects.
+3. **Name.** Enter the names other people see in their node lists and on their maps. On firmware that offers it, the page also has a **Status Message**. **Save** writes the names, and **Skip** moves on without saving. Licensed operators skip this page.
+4. **Nearby meshes.** On a node with the [Mesh Beacon](discovery#mesh-beacon) module, turn on **Listen for beacons** to keep invitations from nearby meshes, then tap **Join** or **Add channel** on one you have heard.
+
+The setup writes only to the node you are connected to, and only while that connection holds. If you close the setup, the app doesn't open it for that node again on its own. Once the region is set, the card reads **Set up radio**, and the **Settings** screen has a **Set up radio** row for your own node.
+
+Once the region is set, the tab also warns you if the node is receive-only: a **Transmit is disabled** card, reading "This device can receive but will not send anything over LoRa." Tap it to open the LoRa screen and turn **Transmit Enabled** back on. An unset region already stops the node transmitting, so the app names that first and holds the transmit card back until you have set a region.
+
+These cards appear only for the node you are connected to when it is not in managed mode and its settings are writable.
 
 For more information, see [Settings — Radio & User](settings-radio-user#lora-config).
 
 ## Live Update
 
-On Android 16 and newer, the **Connect** tab has a **Live Update** row while you are connected. It puts one thing you choose in the status bar and the service notification:
+On Android 16 and newer, the **Connect** tab has a **Live Update** row while you are connected. It puts one thing you choose in the status bar and in the Meshtastic notification in the notification shade; nothing changes inside the app:
 
 - **Mesh status:** the connection, how many nodes are online, your unread messages and your node's battery. The status bar shows the nodes online, such as `5/12`.
 - **Track a node:** one node's battery, signal, when it was last heard, its hops and its distance from your node. The status bar shows its battery, or how long ago it was heard when it reports no battery. Pick the node from a list with favorites first, then the most recently heard, or search it by name.
 
-Tap the row to start one, switch to the other, or stop it. Only one runs at a time, and it is off until you start it. On a node's details, **Track in Live Update** starts tracking that node directly.
+Tap the row to start one or switch to the other. Only one runs at a time, and it is off until you start it. On a node's details, **Track in Live Update** starts tracking that node directly.
+
+While one runs, the row says what it shows and has a **Stop** button, and the notification itself has a **Stop Live Update** action. Either ends it and leaves the radio connected; the notification goes back to its usual connection state and mesh statistics.
 
 A dropped link keeps it running and shows the connection state until the node is back. Disconnecting, switching nodes, or deleting or ignoring the tracked node stops it. If the row says Live Updates are turned off for Meshtastic, Android shows it as an ordinary notification until you allow them in system settings.
 
@@ -182,6 +215,21 @@ On Desktop (Linux/macOS/Windows), the app supports:
 - **TCP/IP** — for network-connected nodes
 
 See [Desktop App](desktop) for platform-specific details and keyboard shortcuts.
+
+## Web Connections
+
+The web app reaches a radio through the browser's own Bluetooth and serial APIs, so what it offers depends on the browser:
+
+| Transport  | Works in                                                                                                                                                                           |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Блутут     | Chrome, Edge and Opera on Windows, macOS, ChromeOS and Android. Chrome on Linux needs `chrome://flags/#enable-experimental-web-platform-features`. |
+| USB serial | Chrome, Edge and Opera on a computer.                                                                                                                              |
+| Мрежа      | Not yet: a browser cannot open the TCP connection a node listens on.                                                                               |
+
+The selector shows only the transports this browser has, and a card names what is missing and which browsers have it. Firefox and Safari have neither, so the **Connect** tab shows only that card.
+
+- **Bluetooth:** **Scan for Bluetooth devices** opens the browser's device chooser. Picking a node there is the selection, and the app connects at once. A node that needs pairing makes the system ask for its PIN, the one on the node's screen or its fixed PIN.
+- **USB serial:** the browser lists only the ports you have allowed this site to use, so a plugged-in node does not appear on its own. **Add serial device…** opens the browser's port chooser, filtered to the USB serial chips and boards Meshtastic nodes use, and connects to the port you pick. **Show all serial ports…** opens it unfiltered. A known board shows by name, such as RAK4631, and other ports by their chip or USB ID.
 
 ## Related Topics
 

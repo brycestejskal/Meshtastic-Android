@@ -55,8 +55,11 @@ data class Capabilities(val firmwareVersion: String?, internal val forceEnableAl
     /** Ability to mute notifications from specific nodes via admin messages. */
     val canMuteNode = atLeast(V2_7_18)
 
-    /** Ability to request neighbor information from other nodes. Gated to [UNRELEASED] until working reliably. */
-    val canRequestNeighborInfo = atLeast(UNRELEASED)
+    /**
+     * Ability to play the saved ringtone on the node via `AdminMessage.play_ringtone_request`. Gated to [UNRELEASED]
+     * until a release carries the handler (meshtastic/firmware#12351); firmware without it ignores the request.
+     */
+    val canPlayRingtone = atLeast(UNRELEASED)
 
     /** Ability to send verified shared contacts. Supported since firmware v2.7.12. */
     val canSendVerifiedContacts = atLeast(V2_7_12)
@@ -98,6 +101,9 @@ data class Capabilities(val firmwareVersion: String?, internal val forceEnableAl
 
     /** Support for ESP32 Unified OTA. Supported since firmware v2.7.18. */
     val supportsEsp32Ota = atLeast(V2_7_18)
+
+    /** Whether a LoRa config write applies without a reboot: v2.8.0 applies it live, older firmware restarts. */
+    val appliesLoraConfigLive = atLeast(V2_8_0)
 
     /**
      * Whether a `coding_rate` above the modem preset's own raises it while `use_preset` is on. Supported since firmware

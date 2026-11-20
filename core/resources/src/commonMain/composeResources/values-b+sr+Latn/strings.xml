@@ -66,6 +66,7 @@
     <string name="cancel">Otkaži</string>
     <string name="cant_change_no_radio">Није било могуће променити канал, јер радио још није повезан. Молимо покушајте поново.</string>
     <string name="cant_shutdown">Искључивање није подржано на овом уређају</string>
+    <!-- CARDINAL -->
     <string name="ch_util_definition">Искоришћење за тренутни канал, укључујући добро формиран TX, RX и неисправан RX (такође познат као шум).</string>
     <!-- CHANNEL -->
     <string name="channel_1">Канал 1</string>
@@ -86,6 +87,8 @@
     <!-- CLEAR -->
     <string name="clear">Očisti</string>
     <string name="close">Затвори</string>
+    <!-- CO2 -->
+    <string name="co2_level_good">Dobro</string>
     <!-- COMPASS -->
     <!-- CONFIG -->
     <string name="config_device_ledHeartbeatEnabled_summary">Kontroliše trepćući LED na uređaju. Kod većine uređaja ovo će kontrolisati jedan od do četiri LED-a, punjač i GPS LED-ovi nisu kontrolisani.</string>
@@ -96,6 +99,7 @@
     <string name="config_security_private_key">Користи се за креирање заједничког кључа са удаљеним уређајем.</string>
     <string name="connected">Блутут повезан</string>
     <string name="connected_sleeping">Povezan na radio uređaj, ali uređaj je u stanju spavanja</string>
+    <!-- CONNECTION -->
     <string name="contrast_standard">Стандардно</string>
     <string name="copy">Kopiraj</string>
     <string name="copyright_notice">Meshtastic® Ауторска права Meshtastic LLC</string>
@@ -290,6 +294,7 @@
     <string name="mute_notifications">Утишај нотификације</string>
     <string name="name">Назив</string>
     <string name="navigate_back">Иди назад</string>
+    <!-- NEIGHBOR -->
     <string name="network">Мрежа</string>
     <string name="new_channel_rcvd">Primljen novi link kanala</string>
     <!-- NO -->
@@ -353,7 +358,9 @@
     <string name="quick_chat_edit">Измени брзо ћаскање</string>
     <string name="quick_chat_instant">Моментално пошаљи</string>
     <string name="quick_chat_new">Ново брзо ћаскање</string>
+    <!-- RADIO -->
     <string name="radio_configuration">Конфигурација радио уређаја</string>
+    <string name="radio_setup_name_headline">Пријатељски назив</string>
     <string name="range_test">Тест домета</string>
     <string name="range_test_config">Конфигурација теста домета</string>
     <string name="reboot">Поново покрени</string>
@@ -378,6 +385,7 @@
     <string name="resend">Поново пошаљи</string>
     <string name="reset">Поново покрени</string>
     <string name="reset_to_defaults">Врати на подразумевана подешавања</string>
+    <!-- RINGTONE -->
     <string name="ringtone">Мелодија звона</string>
     <!-- ROLE -->
     <string name="role">Улога уређаја</string>
@@ -394,7 +402,6 @@
     <!-- ROUTING -->
     <string name="routing_error_got_nak">Primljena negativna potvrda</string>
     <string name="routing_error_no_route">Nema rute</string>
-    <string name="routing_error_none">Potvrđeno</string>
     <string name="routing_error_timeout">Isteklo vreme</string>
     <string name="rssi">RSSI</string>
     <string name="rssi_definition">Indikator jačine primljenog signala RSSI, merenje koje se koristi za određivanje nivoa snage koji antena prima. Viša vrednost RSSI generalno ukazuje na jaču i stabilniju vezu.</string>
@@ -410,6 +417,7 @@
     <string name="select">Изабери</string>
     <string name="select_all">Изабери све</string>
     <string name="send">Pošalji</string>
+    <!-- SERIAL -->
     <string name="serial">Серијска веза</string>
     <string name="serial_config">Подешавања серијске везе</string>
     <string name="settings">подешавања</string>
@@ -419,6 +427,7 @@
     <string name="short_name">Кратко име</string>
     <!-- SHOW -->
     <string name="shutdown">Искључи</string>
+    <!-- SIGNAL -->
     <string name="signal">Signal</string>
     <string name="signal_quality">Kvalitet signala</string>
     <!-- SITE -->
@@ -482,15 +491,19 @@
     <string name="waypoint_edit">Измените тачку путање</string>
     <string name="waypoint_new">Нова тачка путање</string>
     <string name="waypoint_received">Примљена тачка путање: %1$s</string>
+    <!-- WEB -->
     <string name="website">Вебсајт</string>
     <string name="what_is_meshtastic">Шта је Мештастик?</string>
     <string name="what_is_meshtastic_description">Отворена, off-grid, децентрализована, меш мрежа која ради на приступачним радио уређајима мале снаге.</string>
     <!-- WIDGET -->
+    <string name="widget_packets_bad">Loš</string>
+    <string name="widget_telemetry_title">Телеметрија (сензори)</string>
     <!-- WIFI -->
     <string name="wifi_provision_success_ip_address">IP адреса</string>
     <string name="wifi_provision_success_username">Корисничко име</string>
     <!-- WIND -->
     <string name="wind_speed">Брзина ветра</string>
     <!-- WRITE -->
+    <!-- XR -->
     <string name="you">Ti</string>
 </resources>

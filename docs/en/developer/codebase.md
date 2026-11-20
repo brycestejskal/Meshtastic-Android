@@ -2,7 +2,7 @@
 title: Codebase
 parent: Developer Guide
 nav_order: 2
-last_updated: 2026-10-21
+last_updated: 2026-11-15
 description: Repository layout, package namespacing, and the Gradle build system — convention plugins, build variants, and key tasks.
 aliases:
   - repository-layout
@@ -23,7 +23,8 @@ Meshtastic-Android/
 │   ├── src/google/         # Google Play flavor (proprietary Google integrations — Gemini, Maps, Play services)
 │   └── src/fdroid/         # F-Droid flavor (FOSS-only)
 ├── desktopApp/             # Desktop JVM application
-├── feature/                # Feature modules (KMP, except widget)
+├── webApp/                 # Kotlin/Wasm browser application, opt-in (webApp/README.md)
+├── feature/                # Feature modules (KMP, except widget and xr)
 │   ├── intro/
 │   ├── messaging/
 │   ├── connections/
@@ -37,6 +38,7 @@ Meshtastic-Android/
 │   ├── docs/
 │   ├── wifi-provision/
 │   ├── widget/             # Android library
+│   ├── xr/                 # Android library
 │   └── discovery/
 ├── core/                   # Core infrastructure modules (KMP, except barcode and nfc)
 │   ├── barcode/            # Android library

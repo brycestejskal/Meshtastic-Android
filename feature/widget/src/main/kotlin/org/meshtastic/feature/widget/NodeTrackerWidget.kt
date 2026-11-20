@@ -22,6 +22,7 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.RemoteViews
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -42,15 +43,18 @@ import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetManager
+import androidx.glance.appwidget.PreviewSizeMode
 import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.components.Scaffold
 import androidx.glance.appwidget.provideContent
 import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.currentState
+import androidx.glance.layout.Box
 import androidx.glance.layout.Column
 import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
+import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import co.touchlab.kermit.Logger
@@ -70,8 +74,8 @@ class NodeTrackerWidget :
     GlanceAppWidget(),
     KoinComponent {
 
-    override val sizeMode: SizeMode = WidgetSizes.responsive
-    override val previewSizeMode: androidx.glance.appwidget.PreviewSizeMode = WidgetSizes.responsive
+    override val sizeMode: SizeMode = WidgetSizes.sizeMode
+    override val previewSizeMode: PreviewSizeMode = WidgetSizes.previewSizeMode
 
     private val dataSource: NodeTrackerWidgetDataSource by inject()
 
@@ -99,7 +103,11 @@ class NodeTrackerWidget :
     }
 
     override suspend fun providePreview(context: Context, widgetCategory: Int) {
-        provideContent { WidgetContent(createMockTrackerState(), AppWidgetManager.INVALID_APPWIDGET_ID) }
+        provideContent {
+            CompositionLocalProvider(LocalWidgetPreview provides true) {
+                WidgetContent(createMockTrackerState(), AppWidgetManager.INVALID_APPWIDGET_ID)
+            }
+        }
     }
 
     /** Same last-resort error UI as [LocalStatsWidget.onCompositionError]. */
@@ -116,7 +124,7 @@ class NodeTrackerWidget :
     internal fun WidgetContent(state: NodeTrackerWidgetState, appWidgetId: Int) {
         val context = LocalContext.current
         val size = LocalSize.current
-        val oneRow = size.height < WidgetSizes.SQUARE.height
+        val oneRow = WidgetSizes.isOneRow(size)
         val onClick =
             when (state) {
                 is NodeTrackerWidgetState.Tracking -> openNodeDetail(context, state.nodeNum)
@@ -130,19 +138,23 @@ class NodeTrackerWidget :
                         if (!oneRow) {
                             WidgetHeader(
                                 title = stringResource(Res.string.widget_node_tracker_title),
-                                compact = size.height < WidgetSizes.TALL.height,
+                                compact = WidgetSizes.isCompact(size),
                             )
                             Spacer(GlanceModifier.height(4.dp))
                         }
-                        when (state) {
-                            NodeTrackerWidgetState.NodeNotFound ->
-                                StatusBody(
-                                    text = stringResource(Res.string.widget_node_tracker_not_found),
-                                    connecting = false,
-                                    oneRow = oneRow,
-                                )
+                        // The body takes what the header leaves, so a body that fills itself never runs under the
+                        // bottom edge.
+                        Box(modifier = GlanceModifier.fillMaxWidth().defaultWeight()) {
+                            when (state) {
+                                NodeTrackerWidgetState.NodeNotFound ->
+                                    StatusBody(
+                                        text = stringResource(Res.string.widget_node_tracker_not_found),
+                                        connecting = false,
+                                        oneRow = oneRow,
+                                    )
 
-                            is NodeTrackerWidgetState.Tracking -> TrackerContent(state)
+                                is NodeTrackerWidgetState.Tracking -> TrackerContent(state)
+                            }
                         }
                     }
                 }
