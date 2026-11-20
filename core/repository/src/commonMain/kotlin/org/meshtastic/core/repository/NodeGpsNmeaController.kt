@@ -20,8 +20,8 @@ import kotlinx.coroutines.CoroutineScope
 
 /**
  * Repeats the connected node's GPS to ATAK for as long as the scope passed to [start] lives. Lives here rather than in
- * core:takserver so core:service can start it without depending on core:takserver, and so a platform with no UDP
- * socket (wasmJs) can supply a no-op.
+ * core:takserver so core:service can start it without depending on core:takserver, and so a platform with no UDP socket
+ * (wasmJs) can supply a no-op.
  */
 fun interface NodeGpsNmeaController {
     fun start(scope: CoroutineScope)

@@ -68,6 +68,8 @@ import org.meshtastic.core.resources.schema_tak_role
 import org.meshtastic.core.resources.schema_tak_team
 import org.meshtastic.core.resources.tak
 import org.meshtastic.core.resources.tak_config
+import org.meshtastic.core.resources.tak_node_gps_nmea
+import org.meshtastic.core.resources.tak_node_gps_nmea_desc
 import org.meshtastic.core.resources.tak_server
 import org.meshtastic.core.resources.tak_server_certs_notice
 import org.meshtastic.core.resources.tak_server_channel
@@ -79,8 +81,6 @@ import org.meshtastic.core.resources.tak_server_enabled_desc
 import org.meshtastic.core.resources.tak_server_export_data_package_desc
 import org.meshtastic.core.resources.tak_server_export_failed
 import org.meshtastic.core.resources.tak_server_loading
-import org.meshtastic.core.resources.tak_node_gps_nmea
-import org.meshtastic.core.resources.tak_node_gps_nmea_desc
 import org.meshtastic.core.resources.tak_server_mesh_to_cot
 import org.meshtastic.core.resources.tak_server_mesh_to_cot_desc
 import org.meshtastic.core.resources.tak_server_regenerate_certs
