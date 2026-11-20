@@ -88,6 +88,18 @@ class TakPrefsTest {
     }
 
     @Test
+    fun `isNodeGpsNmeaEnabled defaults to false and is independent of the server toggle`() = testScope.runTest {
+        assertFalse(takPrefs.isNodeGpsNmeaEnabled.value)
+
+        takPrefs.setNodeGpsNmeaEnabled(true)
+        takPrefs.setTakServerEnabled(false)
+        assertTrue(takPrefs.isNodeGpsNmeaEnabled.value)
+
+        takPrefs.setNodeGpsNmeaEnabled(false)
+        assertFalse(takPrefs.isNodeGpsNmeaEnabled.value)
+    }
+
+    @Test
     fun `mesh to CoT is independent of the server toggle`() = testScope.runTest {
         takPrefs.setMeshToCotEnabled(true)
 

@@ -31,6 +31,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.meshtastic.core.common.di.ApplicationCoroutineScope
 import org.meshtastic.core.di.CoroutineDispatchers
+import org.meshtastic.core.repository.NodeGpsNmeaController
 import org.meshtastic.core.repository.RadioInterfaceService
 import org.meshtastic.core.repository.RadioPrefs
 import org.meshtastic.core.testing.FakeNodeRepository
@@ -77,6 +78,7 @@ class QuickSettingsTileControllerTest {
             serviceNotifications = mock(MockMode.autofill),
             takServerIntegration = mock(MockMode.autofill),
             takPrefs = mock(MockMode.autofill),
+            nodeGpsNmeaController = NodeGpsNmeaController {},
             databaseManager = mock(MockMode.autofill),
             connectionManager = mock(MockMode.autofill),
             dispatchers = dispatchers,
